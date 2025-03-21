@@ -1,0 +1,63 @@
+﻿.search-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 10px;
+}
+
+.search-box {
+    padding: 5px;
+    border: solid 1px;
+    border-radius: 5px;
+    width: 100px;
+}
+
+.search-btn {
+    background: #668fda;
+    border-radius: 5px;
+    padding: 5px;
+    margin-left: 5px;
+    cursor: pointer;
+}
+
+.table-container {
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    color: black;
+}
+
+th, td {
+    padding: 10px;
+    text-align: center;
+    border: 1px solid gray;
+}
+
+th {
+    background-color: #dcdcdc;
+}
+
+.delete-btn, .reservation-btn, .detail-btn{
+    background-color: lightgray;
+    border: none;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.pagination {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.page-btn {
+    background-color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    margin: 2px;
+}
