@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Services.Description;
+using WebAppServerConnection.DTO;
 using WebAppServerConnection.Models;
 using WebAppServerConnection.Repositories;
 
@@ -50,6 +51,19 @@ namespace WebAppServerConnection.Controllers
             Debug.WriteLine(reservations[0]);
 
             return Json(reservations, JsonRequestBehavior.AllowGet);
+        }
+
+
+        public ActionResult GetUserListByPerformanceId(int id) {
+            List<UserReservationInfo> reservationInfo = reservationRepository.GetUserListByPerformanceId(id);
+            Debug.WriteLine("Controller return: " + reservationInfo.Count);
+
+            for(int i = 0; i<reservationInfo.Count; i++)
+            {
+                Debug.WriteLine($"[예약자] ID: {reservationInfo[i].UserID}, 이름: {reservationInfo[i].Username}, 예약일: {reservationInfo[i].ReservationDate}");
+
+            }
+            return Json(reservationInfo, JsonRequestBehavior.AllowGet);
         }
     }
 }

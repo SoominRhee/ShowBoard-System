@@ -15,6 +15,10 @@ namespace WebAppServerConnection.Models
 
         [Required]
         [StringLength(255)]
+        public string Category { get; set; }
+
+        [Required]
+        [StringLength(255)]
         public string Artist { get; set; }
 
         [Required]

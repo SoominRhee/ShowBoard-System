@@ -67,6 +67,7 @@
                 <thead>
                     <tr>
                         <th>공연 일자</th>
+                        <th>Category</th>
                         <th>Artist</th>
                         <th>장소</th>
                         <th>예약 좌석</th>

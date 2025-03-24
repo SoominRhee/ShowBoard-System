@@ -57,10 +57,24 @@ namespace WebAppServerConnection.Controllers
             return Json(performance, JsonRequestBehavior.AllowGet);
         }
 
-        [HttpPost]
-        public ActionResult CreatePerformance(String date, String artist, String location, String details, String link, int availableNum)
+        public ActionResult GetCategoryList()
         {
-            bool isSuccess = performanceRepository.CreatePerformance(date, artist, location, details, link, availableNum);
+            List<String> categories = performanceRepository.GetCategoryList();
+            return Json(categories, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult GetPerformanceListByCategory(String category)
+        {
+            List<Performance> performances = performanceRepository.GetPerformanceListByCategory(category);
+            return Json(performances, JsonRequestBehavior.AllowGet);
+
+
+        }
+
+        [HttpPost]
+        public ActionResult CreatePerformance(String date, String category, String artist, String location, String details, String link, int availableNum)
+        {
+            bool isSuccess = performanceRepository.CreatePerformance(date, category, artist, location, details, link, availableNum);
 
             if (isSuccess)
             {

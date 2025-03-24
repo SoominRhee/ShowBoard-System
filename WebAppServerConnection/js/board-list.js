@@ -57,16 +57,15 @@ $(document).ready(function () {
         loadBoardList(keyword);
     });
 
-    // ✅ 게시글 리스트 불러오기 (검색 포함)
     function loadBoardList(keyword) {
         $.ajax({
             url: "../Board/GetBoardList",
             type: "GET",
-            data: { keyword: keyword }, // 서버에 검색어 전달
+            data: { keyword: keyword },
             dataType: "json",
             success: function (data) {
                 var tableBody = $("#postTableBody");
-                tableBody.empty(); // 기존 데이터 삭제
+                tableBody.empty();
 
                 $.each(data, function (index, item) {
                     var row =

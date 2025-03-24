@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Diagnostics;
+using WebAppServerConnection.DTO;
 using WebAppServerConnection.Models;
 
 namespace WebAppServerConnection.Repositories
@@ -61,7 +62,7 @@ namespace WebAppServerConnection.Repositories
             {
                 connection.Open();
                 string query = @"
-                    SELECT P.ID, P.Date, P.Artist, P.Location, P.Details, P.Link, P.IsAvailableNum, P.ReservationNum
+                    SELECT P.ID, P.Date, P.Category, P.Artist, P.Location, P.Details, P.Link, P.IsAvailableNum, P.ReservationNum
                     FROM User_Reservations UR
                     JOIN Performances P ON UR.PerformanceID = P.ID
                     WHERE UR.UserID = @UserID 
@@ -81,6 +82,7 @@ namespace WebAppServerConnection.Repositories
                             {
                                 ID = Convert.ToInt32(reader["ID"]),
                                 Date = reader["Date"].ToString(),
+                                Category = reader["Category"].ToString(),
                                 Artist = reader["Artist"].ToString(),
                                 Location = reader["Location"].ToString(),
                                 Details = reader["Details"].ToString(),
@@ -96,6 +98,53 @@ namespace WebAppServerConnection.Repositories
             Debug.WriteLine(reservations[0]);
 
             return reservations;
+        }
+
+
+        public List<UserReservationInfo> GetUserListByPerformanceId(int id)
+        {
+            List<UserReservationInfo> reservationInfo = new List<UserReservationInfo>();
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                string query = @"SELECT 
+                                    u.ID AS UserID,
+                                    u.Username,
+                                    ur.ReservationDate
+                                FROM 
+                                    User_Reservations ur
+                                JOIN [Users] u ON ur.UserID = u.ID
+                                WHERE 
+                                    ur.PerformanceID = @PerformanceID";
+                using (SqlCommand cmd = new SqlCommand(query, connection))
+                {
+                    cmd.Parameters.AddWithValue("@PerformanceID", id);
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            int userId = Convert.ToInt32(reader["UserID"]);
+                            string username = reader["Username"].ToString();
+                            DateTime reservationDate = Convert.ToDateTime(reader["ReservationDate"]);
+
+                            // 출력
+                            //Debug.WriteLine($"[예약자] ID: {userId}, 이름: {username}, 예약일: {reservationDate}");
+
+                            reservationInfo.Add(new UserReservationInfo
+                            {
+                                UserID = Convert.ToInt32(reader["UserID"]),
+                                Username = reader["Username"].ToString(),
+                                ReservationDate = reader["ReservationDate"].ToString()
+                            });
+
+                        }
+                    }
+                }
+            }
+
+            Debug.WriteLine("Repository return: " + reservationInfo.Count);
+
+            return reservationInfo;
         }
     }
 }

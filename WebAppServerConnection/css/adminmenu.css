@@ -1,0 +1,49 @@
+﻿.category-performance-container {
+    display: flex;
+    justify-content: flex-start; /* 왼쪽 정렬 */
+    align-items: flex-start;
+    width: 100%; /* 가로 크기 조정 */
+    margin: 20px auto; /* 중앙 정렬 */
+    gap: 20px; /* 박스 간격 */
+}
+
+.category-list {
+    width: 150px;
+    min-height: 350px;
+    border: 1px solid #ccc;
+    background-color: #f8f8f8;
+    text-align: center;
+    display: flex; /* 내부 요소 정렬 */
+    flex-direction: column; /* 세로(수직) 정렬 */
+    align-items: center; /* 중앙 정렬 */
+    gap: 10px; /* 항목 간격 추가 */
+    padding: 10px;
+}
+
+.performance-box {
+    flex-grow: 2;
+    min-height: 350px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    background-color: white;
+    text-align: center;
+    display: flex; /* 내부 요소 정렬 */
+    flex-direction: column; /* 세로(수직) 정렬 */
+    align-items: center; /* 중앙 정렬 */
+    gap: 10px; /* 항목 간격 추가 */
+    padding: 10px;
+}
+
+.category-label {
+    display: block;
+    margin: 8px 0;
+    text-decoration: underline; /* 밑줄 */
+    cursor: pointer; /* 마우스를 손 모양으로 */
+    color: #333;
+    transition: color 0.2s ease;
+}
+
+    .category-label:hover {
+        color: #007bff; /* hover 시 색상 강조 (파랑) */
+        text-decoration: underline;
+    }

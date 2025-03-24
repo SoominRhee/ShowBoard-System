@@ -22,6 +22,7 @@ function loadPerformanceList(keyword) {
                 var row =
                     `<tr data-id="${item.ID}">
                         <td>${item.Date}</td>
+                        <td>${item.Category}</td>
                         <td>${item.Artist}</td>
                         <td>${item.Location}</td>
                         <td>${item.Details.replace(/\n/g, "<br>")}</td>

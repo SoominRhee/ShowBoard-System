@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.Razor.Tokenizer.Symbols;
@@ -22,7 +23,7 @@ namespace WebAppServerConnection.Repositories
             using(SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
-                string query = @"SELECT ID, Date, Artist, Location, Details, Link 
+                string query = @"SELECT ID, Date, Category, Artist, Location, Details, Link 
                                  From Performances
                                  WHERE Artist Like @Keyword";
 
@@ -37,6 +38,7 @@ namespace WebAppServerConnection.Repositories
                             {
                                 ID = Convert.ToInt32(reader["ID"]),
                                 Date = reader["Date"].ToString(),
+                                Category = reader["Category"].ToString(),
                                 Artist = reader["Artist"].ToString(),
                                 Location = reader["Location"].ToString(),
                                 Details = reader["Details"].ToString(),
@@ -54,7 +56,7 @@ namespace WebAppServerConnection.Repositories
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
-                string query = "SELECT ID, Date, Artist, Location, Details, Link, IsAvailableNum, ReservationNum From Performances WHERE ID = @ID";
+                string query = "SELECT ID, Date, Category, Artist, Location, Details, Link, IsAvailableNum, ReservationNum From Performances WHERE ID = @ID";
 
                 using (SqlCommand cmd = new SqlCommand(query, connection))
                 {
@@ -69,6 +71,7 @@ namespace WebAppServerConnection.Repositories
                             {
                                 ID = Convert.ToInt32(reader["ID"]),
                                 Date = reader["Date"].ToString(),
+                                Category = reader["Category"].ToString(),
                                 Artist = reader["Artist"].ToString(),
                                 Location = reader["Location"].ToString(),
                                 Details = reader["Details"].ToString(),
@@ -83,6 +86,60 @@ namespace WebAppServerConnection.Repositories
             }
         }
 
+        public List<String> GetCategoryList()
+        {
+            List<String> categories = new List<String>();
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                string query = "SELECT DISTINCT Category From Performances";
+
+                using (SqlCommand cmd = new SqlCommand(query, connection))
+                {
+                    using(SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            categories.Add(reader["Category"].ToString());
+                        }
+                    }
+                }
+            }
+            return categories;
+        } 
+
+        public List<Performance> GetPerformanceListByCategory(String category)
+        {
+            List<Performance> performances = new List<Performance>();
+            using(SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                string query = "SELECT * FROM Performances WHERE Category = @Category";
+
+                using(SqlCommand cmd = new SqlCommand(query, connection))
+                {
+                    cmd.Parameters.AddWithValue("@Category", category);
+                    using(SqlDataReader reader= cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            performances.Add(new Performance
+                            {
+                                ID = Convert.ToInt32(reader["ID"]),
+                                Date = reader["Date"].ToString(),
+                                Category = reader["Category"].ToString(),
+                                Artist = reader["Artist"].ToString(),
+                                Location = reader["Location"].ToString(),
+                                Details = reader["Details"].ToString(),
+                                Link = reader["Link"].ToString()
+                            });
+                        }
+                    }
+                }
+            }
+            Debug.WriteLine(performances);
+            return performances;
+        }
 
         public bool isPerformanceValid(int id)
         {
@@ -102,16 +159,17 @@ namespace WebAppServerConnection.Repositories
                 }
             }
         }
-        public bool CreatePerformance(String date, String artist, String location, String details, String link, int availableNum)
+        public bool CreatePerformance(String date, String category, String artist, String location, String details, String link, int availableNum)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
-                string query = "INSERT INTO Performances (Date, Artist, Location, Details, Link, IsAvailableNum, ReservationNum ) VALUES (@Date, @Artist, @Location, @Details, @Link, @IsAvailableNum, 0 )";
+                string query = "INSERT INTO Performances (Date, Category, Artist, Location, Details, Link, IsAvailableNum, ReservationNum ) VALUES (@Date, @Category, @Artist, @Location, @Details, @Link, @IsAvailableNum, 0 )";
 
                 using (SqlCommand cmd = new SqlCommand(query, connection))
                 {
                     cmd.Parameters.AddWithValue("@Date", date);
+                    cmd.Parameters.AddWithValue("@Category", category);
                     cmd.Parameters.AddWithValue("@Artist", artist);
                     cmd.Parameters.AddWithValue("@Location", location);
                     cmd.Parameters.AddWithValue("@Details", details);

@@ -23,6 +23,7 @@ function loadReservationList(keyword) {
                 var row =
                     `<tr data-id="${item.ID}">
                             <td>${item.Date}</td>
+                            <td>${item.Category}</td>
                             <td>${item.Artist}</td>   
                             <td>${item.Location}</td>
                             <td>${item.IsAvailableNum}</td>
@@ -53,6 +54,7 @@ $(document).on("click", ".detail-btn", function () {
 
             $("#detailContent").html(`
                 <strong>공연 일자:</strong> ${response.Date}<br>
+                <strong>Category:</strong> ${response.Category}<br>
                 <strong>Artist:</strong> ${response.Artist}<br>
                 <strong>장소:</strong> ${response.Location}<br>
                 <strong>예약 좌석:</strong> ${response.isAvailableNum}<br>

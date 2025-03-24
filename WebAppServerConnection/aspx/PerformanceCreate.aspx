@@ -58,6 +58,11 @@
 
         <div class="container">
             <div class="ltgroup">
+                <label for="category">Category</label>
+                <input type="text" id="category" />
+            </div>
+
+            <div class="ltgroup">
                 <label for="artist">Artist</label>
                 <input type="text" id="artist" />
             </div>
