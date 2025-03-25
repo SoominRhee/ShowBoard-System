@@ -21,8 +21,11 @@
 
 .table-container {
     border-radius: 5px;
-    display: flex;
+/*    display: flex;*/
     justify-content: center;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 1000px;
 }
 
 table {
@@ -42,7 +45,7 @@ th {
     background-color: #dcdcdc;
 }
 
-.delete-btn, .reservation-btn, .detail-btn{
+.delete-btn, .reservation-btn, .detail-btn, .info-btn{
     background-color: lightgray;
     border: none;
     padding: 5px;

@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="/css/adminmenu.css" />
 </head>
 <body>
-    <div>
+    <div class="page-container">
 
         <div class="menu-container">
             <div class="menu-item">

@@ -15,8 +15,9 @@
             <p class="info">공연일정 : ${data.Date}</p>
             <label for="reservationDate">예약 :</label>
             <input type="date" id="reservationDate" class="date-input">
-
-            <button class="reservation-btn">예약</button>            
+            <div class="button-container">
+                <button class="reservation-btn">예약</button>
+            </div>
             `
         },
         error: function () {

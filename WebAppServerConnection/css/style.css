@@ -1,8 +1,15 @@
 ﻿body {
     font-family: Arial, sans-serif;
-    display: flex;
-    justify-content: center; /* 가로 중앙 정렬 */
+/*    display: flex;*/
+    justify-content: center;
     height: 100vh;
+}
+
+.page-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
 }
 
 .menu-container {

@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="/css/boardcreate.css" />
 </head>
 <body>
-    <div>
+    <div class="page-container">
 
         <div class="menu-container">
             <div class="menu-item">
@@ -33,6 +33,7 @@
                     <a href="https://localhost:44349/aspx/PerformanceReservation.aspx">예약</a>
                     <a href="https://localhost:44349/aspx/ReservationList.aspx">예약내역</a>
                     <a href="https://localhost:44349/aspx/PerformanceCreate.aspx">공연등록</a>
+                    <a href="https://localhost:44349/aspx/AdminMenu.aspx">관리자 메뉴</a>
                 </div>
             </div>
 
@@ -90,7 +91,7 @@
             
             <div class="ltgroup">
                 <label for="available">허용좌석</label>
-                <textarea id="available" name="available"></textarea>
+                <textarea id="available" name="available" rows="1"></textarea>
             </div>
 
             <div class="ltgroup">

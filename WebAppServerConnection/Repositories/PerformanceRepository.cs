@@ -131,7 +131,10 @@ namespace WebAppServerConnection.Repositories
                                 Artist = reader["Artist"].ToString(),
                                 Location = reader["Location"].ToString(),
                                 Details = reader["Details"].ToString(),
-                                Link = reader["Link"].ToString()
+                                Link = reader["Link"].ToString(),
+                                IsAvailableNum = Convert.ToInt32(reader["IsAvailableNum"]),
+                                ReservationNum = Convert.ToInt32(reader["ReservationNum"])
+
                             });
                         }
                     }

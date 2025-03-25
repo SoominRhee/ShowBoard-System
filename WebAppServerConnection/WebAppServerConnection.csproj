@@ -208,6 +208,7 @@
     <Compile Include="Controllers\BoardController.cs" />
     <Compile Include="Controllers\PerformanceController.cs" />
     <Compile Include="Controllers\ReservationController.cs" />
+    <Compile Include="DTO\UserLoginResult.cs" />
     <Compile Include="DTO\UserReservationInfo.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

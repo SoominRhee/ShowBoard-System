@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="/css/modalstyle.css"/>
 </head>
 <body>
-    <div>
+    <div class="page-container">
 
         <div class="menu-container">
             <div class="menu-item">
@@ -33,6 +33,7 @@
                     <a href="https://localhost:44349/aspx/PerformanceReservation.aspx">예약</a>
                     <a href="https://localhost:44349/aspx/ReservationList.aspx">예약내역</a>
                     <a href="https://localhost:44349/aspx/PerformanceCreate.aspx">공연등록</a>
+                    <a href="https://localhost:44349/aspx/AdminMenu.aspx">관리자 메뉴</a>
                 </div>
             </div>
 
@@ -54,15 +55,13 @@
         </div>
 
 
-        <div class="search-container">
-            <input type="text" class="search-box" placeholder="검색어 입력" />
-            <button class="search-btn">검색</button>
-            
-                
-        </div>
+        
 
-        <!-- 스크롤 가능한 테이블 -->
         <div class="table-container">
+            <div class="search-container">
+                <input type="text" class="search-box" placeholder="검색어 입력" />
+                <button class="search-btn">검색</button>
+            </div>
             <table>
                 <thead>
                     <tr>
@@ -70,8 +69,8 @@
                         <th>Category</th>
                         <th>Artist</th>
                         <th>장소</th>
-                        <th>예약 좌석</th>
-                        <th>예약 완료</th>
+                        <th>총 좌석 수</th>
+                        <th>예약 현황</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -86,10 +85,8 @@
             <button class="page-btn">>></button>
         </div>
 
-        <!-- 모달 오버레이 -->
         <div class="modal-overlay"></div>
 
-        <!-- 모달 팝업 -->
         <div id="detailModal" class="modal">
             <span class="close">&times;</span>
             <h2>공연 상세 정보</h2>

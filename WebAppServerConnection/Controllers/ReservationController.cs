@@ -48,7 +48,7 @@ namespace WebAppServerConnection.Controllers
             //}
 
             List<Performance> reservations = reservationRepository.GetUserReservations(userId.Value, keyword);
-            Debug.WriteLine(reservations[0]);
+            
 
             return Json(reservations, JsonRequestBehavior.AllowGet);
         }

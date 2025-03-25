@@ -2,31 +2,32 @@
     console.log("페이지로드");
     //alert("페이지 로드");
     $.ajax({
-        url: "../Performance/GetCategoryList",
-        type: "Get",
+        url: "../Account/CheckAdmin",
+        type: "GET",
         dataType: "json",
-        success: function (data) {
-            console.log("요청성공");
-            //alert("카테고리 정보를 불러오는데 성공했습니다.")
-            var listBody = $("#categoryList");
-            listBody.empty();
-            
-            listBody.append("<h4>Category</h4>");
-            $.each(data, function (index, item) {
-                var categoryName =
-                `<label class="category-label" data-category="${item}">${item}</label>`
-                listBody.append(categoryName);
-            });
+        success: function (response) {
+            if (!response.isAdmin) {
+                alert("관리자만 접근 가능합니다.");
+                window.location.href = "MainWindow.aspx";
+            } else {
+                alert("관리자 확인");
+
+                loadCategoryList();
+            }
         },
         error: function () {
-            console.log("요청 실패");
-            //alert("카테고리 정보를 불러오는데 실패했습니다.")
+            alert("권한 확인 중 오류 발생");
+            window.location.href = "Login.aspx";
         }
     });
+
+    
 });
 
 
 $(document).on("click", ".category-label", function () {
+    $("#userInfoTable thead").empty();
+    $("#userInfoTable tbody").empty();
     const category = $(this).data("category");
     console.log(category);
     $("#performanceBox h4").remove(); 
@@ -48,9 +49,9 @@ $(document).on("click", ".category-label", function () {
                             <th>Category</th>
                             <th>Artist</th>
                             <th>장소</th>
-                            <th>공연내용</th>
-                            <th>링크</th>
-                            <th>예약</th>
+                            <th>총 좌석 수</th>
+                            <th>예약 현황</th>
+                            <th>예약자</th>
                         </tr>
                     `);
 
@@ -123,3 +124,28 @@ $(document).on("click", ".info-btn", function (event) {
     });
 
 });
+
+function loadCategoryList() {
+    $.ajax({
+        url: "../Performance/GetCategoryList",
+        type: "Get",
+        dataType: "json",
+        success: function (data) {
+            console.log("요청성공");
+            //alert("카테고리 정보를 불러오는데 성공했습니다.")
+            var listBody = $("#categoryList");
+            listBody.empty();
+
+            listBody.append("<h4>Category</h4>");
+            $.each(data, function (index, item) {
+                var categoryName =
+                    `<label class="category-label" data-category="${item}">${item}</label>`
+                listBody.append(categoryName);
+            });
+        },
+        error: function () {
+            console.log("요청 실패");
+            //alert("카테고리 정보를 불러오는데 실패했습니다.")
+        }
+    });
+}

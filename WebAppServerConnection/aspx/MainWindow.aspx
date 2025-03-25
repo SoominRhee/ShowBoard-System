@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="/css/style.css" />
 </head>
 <body>
-    <form id="form1" runat="server">
+    <div class="page-container">
 
         <div class="menu-container">
             <div class="menu-item">
@@ -57,6 +57,6 @@
             </div>
                 
         </div>
-    </form>
+    </div>
 </body>
 </html>

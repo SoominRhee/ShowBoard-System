@@ -95,7 +95,7 @@ namespace WebAppServerConnection.Repositories
                 }
             }
 
-            Debug.WriteLine(reservations[0]);
+            //Debug.WriteLine(reservations[0]);
 
             return reservations;
         }
