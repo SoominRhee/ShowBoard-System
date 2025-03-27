@@ -5,7 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Configuration;
 using WebAppServerConnection.Models;
-using WebAppServerConnection.DTO;
+using WebAppServerConnection.DTOs;
 
 
 namespace WebAppServerConnection.Repositories

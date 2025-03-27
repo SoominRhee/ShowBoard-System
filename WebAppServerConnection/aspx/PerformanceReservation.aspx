@@ -47,7 +47,7 @@
              </div>
 
              <div class="menu-item">
-                 <div class="menu-bar">공연신청</div>
+                 <div class="menu-bar">사용자 관리</div>
                  <div class="menu">
                      <a href="#">조회/변경</a>
                      <a href="#">등록</a>

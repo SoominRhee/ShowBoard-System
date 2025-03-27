@@ -5,7 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Services.Description;
-using WebAppServerConnection.DTO;
+using WebAppServerConnection.DTOs;
 using WebAppServerConnection.Models;
 using WebAppServerConnection.Repositories;
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Diagnostics;
-using WebAppServerConnection.DTO;
+using WebAppServerConnection.DTOs;
 using WebAppServerConnection.Models;
 
 namespace WebAppServerConnection.Repositories

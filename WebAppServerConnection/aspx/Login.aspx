@@ -21,7 +21,7 @@
                 <input type="password" id="password" class="form-control" required />
 
                 <button type="button" id="btnLogin" class="btn btn-primary w-100 mt-3">로그인</button>
-            </div>
+            </div>      
         </div>  
         <div id="resultContainer"></div>
     </form>
