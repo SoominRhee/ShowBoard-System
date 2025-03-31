@@ -5,32 +5,35 @@
     width: 100%;
     margin: 20px auto;
     gap: 20px;
+}
 
 .category-list {
     width: 150px;
     min-height: 350px;
     border: 1px solid #ccc;
-    background-color: #f8f8f8;
+    background-color: #8EB4E3;
     text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 10px;
     padding: 10px;
+    border-radius: 8px;
 }
 
 .performance-box {
     flex-grow: 2;
     min-height: 350px;
-    border: 1px solid #ccc;
+    border: 2px solid #ccc;
     padding: 10px;
     background-color: white;
     text-align: center;
     display: flex;
     flex-direction: column;
-    align-items: center; 
+    align-items: center;
     gap: 10px;
     padding: 10px;
+    border-radius: 8px;
 }
 
 .category-label {

@@ -119,6 +119,20 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="aspx\ADManager.aspx.cs">
+      <DependentUpon>ADManager.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="aspx\ADManager.aspx.designer.cs">
+      <DependentUpon>ADManager.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="aspx\WebForm1.aspx.cs">
+      <DependentUpon>WebForm1.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="aspx\WebForm1.aspx.designer.cs">
+      <DependentUpon>WebForm1.aspx</DependentUpon>
+    </Compile>
     <Compile Include="LdapConnectionTest.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -226,8 +240,10 @@
     <Compile Include="Repositories\ReservationRepository.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
     <Compile Include="testMain.cs" />
+    <Compile Include="Utils\ActiveDirectoryHelper.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="aspx\ADManager.aspx" />
     <Content Include="aspx\AdminMenu.aspx" />
     <Content Include="aspx\BoardCreate.aspx" />
     <Content Include="aspx\BoardList.aspx" />
@@ -240,6 +256,7 @@
     <Content Include="aspx\PerformanceList.aspx" />
     <Content Include="aspx\PerformanceReservation.aspx" />
     <Content Include="aspx\ReservationList.aspx" />
+    <Content Include="aspx\WebForm1.aspx" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-grid.rtl.css" />

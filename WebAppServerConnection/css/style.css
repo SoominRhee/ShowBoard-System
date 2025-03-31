@@ -1,8 +1,9 @@
 ﻿body {
     font-family: Arial, sans-serif;
-/*    display: flex;*/
+    /*    display: flex;*/
     justify-content: center;
     height: 100vh;
+    background-color:#f5f5f5;
 }
 
 .page-container {

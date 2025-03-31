@@ -10,7 +10,7 @@
      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 </head>
 <body>
-    <form id="form1" runat="server">
+    <div>
         <div class="container mt-5">
             <div class="card p-4 mx-auto" style="max-width: 400px;">
                 <h2 class="text-center">Login</h2>
@@ -20,10 +20,16 @@
                 <label>비밀번호:</label>
                 <input type="password" id="password" class="form-control" required />
 
+                <label class="mt-2">
+                  <input type="checkbox" id="isAdLogin" />
+                  AD 계정으로 로그인
+                </label>
+
                 <button type="button" id="btnLogin" class="btn btn-primary w-100 mt-3">로그인</button>
             </div>      
         </div>  
         <div id="resultContainer"></div>
-    </form>
+
+    </div>
 </body>
 </html>

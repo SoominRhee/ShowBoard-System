@@ -7,11 +7,11 @@
 // </자동 생성됨>
 //------------------------------------------------------------------------------
 
-namespace WebAppServerConnection
+namespace WebAppServerConnection.aspx
 {
 
 
-    public partial class Login
+    public partial class ADManager
     {
     }
 }

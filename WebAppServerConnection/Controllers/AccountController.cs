@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.DirectoryServices;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using WebAppServerConnection.DTOs;
 using WebAppServerConnection.Models;
 using WebAppServerConnection.Repositories;
+using WebAppServerConnection.Utils;
 
 namespace WebAppServerConnection.Controllers
 {
@@ -28,18 +30,43 @@ namespace WebAppServerConnection.Controllers
 
 
         [HttpPost]
-        public ActionResult Login(string Username, string Password)
+        public ActionResult Login(string Username, string Password, bool IsAdLogin)
         {
-            UserLoginResult result = userRepository.GetUserLoginInfo(Username, Password);
-            if (result != null)
+            if (IsAdLogin)
             {
-                Session["UserID"] = result.ID;
-                Session["Username"] = Username;
-                Session["IsAdmin"] = result.IsAdmin;
-                return Json(new { success = true, message = "로그인 성공" });
-            }
 
-            return Json(new { success = false, message = "아이디 또는 비밀번호가 잘못되었습니다." });
+                if(ActiveDirectoryHelper.TryLogin(Username, Password))
+                {
+                    var result = userRepository.GetUserByUsername(Username);
+                    if (result == null)
+                    {
+                        userRepository.CreateUserFromAD(Username, Password); // 새 메서드 필요
+                        result = userRepository.GetUserByUsername(Username);
+                    }
+
+                    Session["UserID"] = result.ID;
+                    Session["Username"] = Username;
+                    Session["IsAdmin"] = result.IsAdmin;
+                    return Json(new { success = true, message = "AD 로그인 성공" });
+                }
+                else
+                {
+                    return Json(new { success = false, message = "AD 로그인 실패" });
+                }
+            }
+            else
+            {
+                UserLoginResult result = userRepository.GetUserLoginInfo(Username, Password);
+                if (result != null)
+                {
+                    Session["UserID"] = result.ID;
+                    Session["Username"] = Username;
+                    Session["IsAdmin"] = result.IsAdmin;
+                    return Json(new { success = true, message = "로그인 성공" });
+                }
+
+                return Json(new { success = false, message = "아이디 또는 비밀번호가 잘못되었습니다." });
+            }
         }
 
         [HttpGet]
