@@ -11,22 +11,22 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            //margin: 20px;
             background-color: #f5f5f5;
         }
 
         .container {
+            max-width: 1200px;
             display: flex;
             gap: 30px;
-            width: 47.5%;
+            width: 100%;
             justify-content: center; 
             margin: 0 auto;
         }
 
         .tree-box {
             background-color: #8EB4E3;
-            color: white;
-            font-weight: bold;
+            color: #F5F5F5;
+/*            font-weight: bold;*/
             min-height: 400px;
             width: 180px;
             padding: 20px;
@@ -63,6 +63,7 @@
             display: none;
             padding-left: 20px;
         }
+
 
         .active {
             display: block;
@@ -206,9 +207,20 @@
 
     <script>
         const togglers = document.getElementsByClassName("tree-toggle");
+
         for (let i = 0; i < togglers.length; i++) {
             togglers[i].addEventListener("click", function () {
-                this.parentElement.querySelector(".nested").classList.toggle("active");
+                const parentLi = this.parentElement;
+                const nested = parentLi.querySelector(".nested");
+
+                const isOpening = !nested.classList.contains("active");
+
+                if (!isOpening) {
+                    nested.querySelectorAll(".active").forEach(el => el.classList.remove("active"));
+                    nested.querySelectorAll(".caret-down").forEach(el => el.classList.remove("caret-down"));
+                }
+
+                nested.classList.toggle("active");
                 this.classList.toggle("caret-down");
             });
         }

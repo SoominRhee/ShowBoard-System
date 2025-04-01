@@ -1,10 +1,11 @@
 ﻿.category-performance-container {
     display: flex;
     justify-content: flex-start;
-    align-items: flex-start;
+/*    align-items: flex-start;*/
     width: 100%;
     margin: 20px auto;
     gap: 20px;
+    align-items: stretch;
 }
 
 .category-list {
@@ -16,24 +17,24 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10px;
+    /*    gap: 10px;*/
     padding: 10px;
     border-radius: 8px;
+    color: #F5F5F5;
 }
 
 .performance-box {
     flex-grow: 2;
     min-height: 350px;
-    border: 2px solid #ccc;
-    padding: 10px;
     background-color: white;
     text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10px;
-    padding: 10px;
+/*    gap: 10px;*/
     border-radius: 8px;
+    border: 2px solid #ccc;
+    padding: 6px 20px;
 }
 
 .category-label {
@@ -41,7 +42,8 @@
     margin: 8px 0;
     text-decoration: underline;
     cursor: pointer;
-    color: #333;
+    /*    color: #333;*/
+    color: #F5F5F5;
     transition: color 0.2s ease;
 }
 
@@ -49,3 +51,5 @@
         color: #007bff;
         text-decoration: underline;
     }
+
+

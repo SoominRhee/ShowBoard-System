@@ -99,8 +99,9 @@
                 <input type="date" id="display" name="display" />
             </div>
 
-            <button class="create-btn" >등록</button>
-           
+            <div class="create-wrapper">
+                <button class="create-btn" >등록</button>
+           </div>
             
 
         </div>

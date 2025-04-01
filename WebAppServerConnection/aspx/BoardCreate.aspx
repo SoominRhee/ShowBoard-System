@@ -56,7 +56,6 @@
                 
       
 
-
         <div class="container">
             
             <div class="ltgroup">
@@ -74,13 +73,13 @@
                 <input type="date" id="date" name="date" />
                 
             </div>
-            <button class="create-btn" >등록</button>
-           
+
+            <div class="create-wrapper">
+                <button class="create-btn">등록</button>
+            </div>
             
 
         </div>
-
-
     </div>
 </body>
 </html>

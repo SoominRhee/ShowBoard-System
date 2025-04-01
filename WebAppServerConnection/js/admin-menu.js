@@ -30,8 +30,8 @@ $(document).on("click", ".category-label", function () {
     $("#userInfoTable tbody").empty();
     const category = $(this).data("category");
     console.log(category);
-    $("#performanceBox h4").remove(); 
-    $("#performanceBox").prepend(`<h4>Category: ${category}</h4>`);
+    $("#performanceBox h3").remove(); 
+    $("#performanceBox").prepend(`<h3 style="text-align: left; width: 100%;">Category: ${category}</h3>`);
     $.ajax({
         url: "../Performance/GetPerformanceListByCategory",
         type: "Get",
@@ -136,7 +136,7 @@ function loadCategoryList() {
             var listBody = $("#categoryList");
             listBody.empty();
 
-            listBody.append("<h4>Category</h4>");
+            listBody.append("<h3>Category</h3>");
             $.each(data, function (index, item) {
                 var categoryName =
                     `<label class="category-label" data-category="${item}">${item}</label>`

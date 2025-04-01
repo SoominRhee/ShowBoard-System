@@ -1,8 +1,22 @@
-﻿.container {
+﻿/*.main-container {
+    background-color: white;
+    margin: 20px auto;
+    gap: 10px;
+    border-radius: 8px;
+    border: 2px solid #ccc;
     padding: 10px;
+}*/
+
+.container {
     width: 100%;
     height: auto;
-/*    background-color: green;*/
+    background-color: white;
+    margin: 20px auto;
+    gap: 10px;
+    border-radius: 8px;
+    border: 2px solid #ccc;
+    /*    padding: 10px;*/
+    padding: 20px 40px;
 }
 
 label {
@@ -33,12 +47,20 @@ input, textarea {
 /*    background-color: red;*/
 }
 
+.create-wrapper {
+    display: flex;
+    justify-content: flex-end;
+/*    margin-bottom: 10px;*/
+    width: 100%; /* ✅ 부모를 화면 너비만큼 확장 */
+}
+
 .create-btn {
-    float: right;
     background: #668fda;
     border-radius: 5px;
-
     height: 35px;
-    margin-left: 300px;
     cursor: pointer;
+    padding: 0 15px;
+    color: white;
+    font-weight: bold;
+    border: 1px solid #ccc;
 }

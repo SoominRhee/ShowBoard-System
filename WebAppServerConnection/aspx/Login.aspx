@@ -9,7 +9,7 @@
     <script src="/js/login.js"></script>
      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 </head>
-<body>
+<body style="background-color:#f5f5f5;">
     <div>
         <div class="container mt-5">
             <div class="card p-4 mx-auto" style="max-width: 400px;">

@@ -74,13 +74,14 @@
                 <tbody id="performanceTableBody">
                 </tbody>
             </table>
+            <div class="pagination">
+                <button class="page-btn"><<</button>
+                <span>0</span>
+                <button class="page-btn">>></button>
+            </div>
         </div>
 
-        <div class="pagination">
-            <button class="page-btn"><<</button>
-            <span>0</span>
-            <button class="page-btn">>></button>
-        </div>
+        
         
 
     </div>
