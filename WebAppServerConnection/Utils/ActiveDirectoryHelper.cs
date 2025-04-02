@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.DirectoryServices;
+using System.Web.Services;
+using WebAppServerConnection.DTOs;
 
 namespace WebAppServerConnection.Utils
 {
@@ -11,7 +14,7 @@ namespace WebAppServerConnection.Utils
         {
             try
             {
-                
+
                 string fullUsername = "TEST\\" + username;
 
                 using (DirectoryEntry entry = new DirectoryEntry(ldapPath, fullUsername, password))
@@ -62,5 +65,79 @@ namespace WebAppServerConnection.Utils
 
             return false;
         }
+
+        public static List<OrgUnitNode> GetOrgUnits()
+        {
+            try
+            {
+                List<OrgUnitNode> result = new List<OrgUnitNode>();
+                DirectoryEntry root = new DirectoryEntry("LDAP://192.168.4.120/DC=test,DC=iqpad,DC=local", "TEST\\administrator", "smstar1221!");
+
+                foreach (DirectoryEntry ou in root.Children)
+                {
+                    if (ou.SchemaClassName == "organizationalUnit" && ou.Properties["name"].Value.ToString() == "iqpad")
+                    {
+                        result.Add(BuildOrgUnitTree(ou));
+                    }
+                }
+                Debug.WriteLine("result form ADHelper.cs: " + result);
+
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("AD 연결 실패: " + ex.Message);
+                return new List<OrgUnitNode>();
+            }
+        }
+
+        private static OrgUnitNode BuildOrgUnitTree(DirectoryEntry entry)
+        {
+            OrgUnitNode node = new OrgUnitNode
+            {
+                Name = entry.Properties["name"].Value.ToString(),
+                Children = new List<OrgUnitNode>()
+            };
+
+            foreach (DirectoryEntry child in entry.Children)
+            {
+                if (child.SchemaClassName == "organizationalUnit")
+                {
+                    node.Children.Add(BuildOrgUnitTree(child)); // 재귀 호출
+                }
+            }
+
+            return node;
+        }
+
+
+
+        //public static List<ADUser> GetUsersByOU(string ouName)
+        //{
+        //    List<ADUser> users = new List<ADUser>();
+
+        //    string path = $"LDAP://OU={ouName},OU=iqpad,DC=testiqpad,DC=local";
+        //    DirectoryEntry entry = new DirectoryEntry(path);
+
+        //    DirectorySearcher searcher = new DirectorySearcher(entry)
+        //    {
+        //        Filter = "(objectClass=user)"
+        //    };
+
+        //    foreach (SearchResult result in searcher.FindAll())
+        //    {
+        //        DirectoryEntry user = result.GetDirectoryEntry();
+
+        //        users.Add(new ADUser
+        //        {
+        //            Name = user.Properties["cn"].Value?.ToString(),
+        //            Type = "User",
+        //            Description = user.Properties["description"].Value?.ToString() ?? ""
+        //        });
+        //    }
+
+        //    return users;
+        //}
     }
 }

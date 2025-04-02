@@ -153,28 +153,7 @@
         <div class="tree-box">
             <h3>조직도</h3>
             <ul class="tree-view">
-                <li>
-                    <span class="tree-toggle caret">iqpad</span>
-                    <ul class="nested">
-                        <li>
-                            <span class="tree-toggle caret">솔루션사업본부</span>
-                            <ul class="nested">
-                                <li>개발지원팀</li>
-                                <li>구축수행팀</li>
-                                <li>운영지원팀</li>
-                                <li>본부장</li>
-                            </ul>
-                        </li>
-                        <li>
-                            <span class="tree-toggle caret">인프라사업본부</span>
-                            <ul class="nested">
-                                <li>구축수행팀</li>
-                                <li>운영지원팀</li>
-                                <li>본부장</li>
-                            </ul>
-                        </li>
-                    </ul>
-                </li>
+                
             </ul>
         </div>
 
@@ -206,24 +185,85 @@
     </div>
 
     <script>
-        const togglers = document.getElementsByClassName("tree-toggle");
+        $(document).ready(function () {
+            // 1. 조직도 트리 로딩
+            loadOrgTree();
 
-        for (let i = 0; i < togglers.length; i++) {
-            togglers[i].addEventListener("click", function () {
-                const parentLi = this.parentElement;
-                const nested = parentLi.querySelector(".nested");
+            // 2. 트리 노드 클릭 (토글 + 사용자 목록 불러오기)
+            $(document).on("click", ".tree-toggle", function () {
+                const parentLi = $(this).parent();
+                const nested = parentLi.children(".nested");
 
-                const isOpening = !nested.classList.contains("active");
+                // 펼치기 / 접기
+                const isOpening = !nested.hasClass("active");
 
                 if (!isOpening) {
-                    nested.querySelectorAll(".active").forEach(el => el.classList.remove("active"));
-                    nested.querySelectorAll(".caret-down").forEach(el => el.classList.remove("caret-down"));
+                    // 닫기 동작일 경우 하위 노드들도 전부 닫기
+                    nested.find(".active").removeClass("active");
+                    nested.find(".caret-down").removeClass("caret-down");
                 }
 
-                nested.classList.toggle("active");
-                this.classList.toggle("caret-down");
+                nested.toggleClass("active");
+                $(this).toggleClass("caret-down");
+
+                const ouName = $(this).data("ou");
+
+                // 사용자 정보 불러오기
+                //$.ajax({
+                //    url: "ADManager.aspx/GetUsersByOU",
+                //    type: "POST",
+                //    contentType: "application/json; charset=utf-8",
+                //    data: JSON.stringify({ ouName: ouName }),
+                //    success: function (res) {
+                //        const users = res.d;
+                //        let html = "";
+                //        users.forEach(u => {
+                //            html += `<tr>
+                //            <td>${u.Name}</td>
+                //            <td>${u.Type}</td>
+                //            <td>${u.Description}</td>
+                //        </tr>`;
+                //        });
+                //        $(".user-info tbody").html(html);
+                //    }
+                //});
             });
-        }
+
+            // 3. 트리 구조 Ajax로 가져오기
+            function loadOrgTree() {
+                $.ajax({
+                    url: "../AD/GetOrgTree",
+                    type: "GET",
+                    dataType: "json",
+                    beforeSend: function () {
+                        alert("요청 전송 준비 완료");
+                    },
+                    success: function (res) {
+                        alert("응답 받음");
+                        console.log(res);
+                        const treeHtml = buildTreeView(res);
+                        $(".tree-view").html(treeHtml);
+                    },
+                    error: function () {
+                        alert("응답 없음")
+                    }
+                });
+            }
+
+            // 4. 트리뷰 HTML 재귀 생성 함수
+            function buildTreeView(nodes) {
+                let html = "";
+                nodes.forEach(n => {
+                    html += `<li>
+                    <span class="tree-toggle caret" data-ou="${n.Name}">${n.Name}</span>`;
+                    if (n.Children.length > 0) {
+                        html += `<ul class="nested">${buildTreeView(n.Children)}</ul>`;
+                    }
+                    html += `</li>`;
+                });
+                return html;
+            }
+        });
     </script>
 
 </body>

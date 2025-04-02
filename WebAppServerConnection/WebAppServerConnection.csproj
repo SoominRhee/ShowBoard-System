@@ -133,6 +133,9 @@
     <Compile Include="aspx\WebForm1.aspx.designer.cs">
       <DependentUpon>WebForm1.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Controllers\ADController.cs" />
+    <Compile Include="DTOs\ADUser.cs" />
+    <Compile Include="DTOs\OrgUnitNode.cs" />
     <Compile Include="LdapConnectionTest.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -325,6 +328,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\AD\" />
     <Folder Include="Views\Reservation\" />
   </ItemGroup>
   <ItemGroup>

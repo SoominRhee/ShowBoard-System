@@ -18,7 +18,7 @@
     flex-direction: column;
     align-items: center;
     /*    gap: 10px;*/
-    padding: 10px;
+    padding: 20px;
     border-radius: 8px;
     color: #F5F5F5;
 }
@@ -34,7 +34,7 @@
 /*    gap: 10px;*/
     border-radius: 8px;
     border: 2px solid #ccc;
-    padding: 6px 20px;
+    padding: 16px 20px;
 }
 
 .category-label {
@@ -53,3 +53,16 @@
     }
 
 
+.info-box {
+    flex-grow: 2;
+    min-height: 350px;
+    background-color: white;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /*    gap: 10px;*/
+    border-radius: 8px;
+    border: 2px solid #ccc;
+    padding: 20px 20px;
+}

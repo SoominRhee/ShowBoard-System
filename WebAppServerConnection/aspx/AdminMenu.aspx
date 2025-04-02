@@ -84,7 +84,7 @@
 
         </div>
 
-        <div class="performance-box" id="InfoBox" style="margin-top: 20px;">
+        <div class="info-box" id="InfoBox" style="margin-top: 20px;">
             <table id="userInfoTable">
                 <thead id ="infoTableHead"></thead>
     
