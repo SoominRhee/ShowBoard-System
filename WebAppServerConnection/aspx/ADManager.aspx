@@ -8,6 +8,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="/js/menu.js"></script>
     <link rel="stylesheet" href="/css/style.css" />
+
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -92,6 +93,12 @@
         th {
             background-color: #eee;
         }
+
+        .last {
+            text-decoration: underline;
+            cursor: pointer;
+
+        }
     </style>
 </head>
 <body>
@@ -149,7 +156,6 @@
 
 
     <div class="container">
-        <!-- 트리뷰 영역 -->
         <div class="tree-box">
             <h3>조직도</h3>
             <ul class="tree-view">
@@ -157,7 +163,6 @@
             </ul>
         </div>
 
-        <!-- 사용자 정보 영역 -->
         <div class="user-info">
             <h3>사용자 정보</h3>
             <table>
@@ -186,10 +191,8 @@
 
     <script>
         $(document).ready(function () {
-            // 1. 조직도 트리 로딩
             loadOrgTree();
 
-            // 2. 트리 노드 클릭 (토글 + 사용자 목록 불러오기)
             $(document).on("click", ".tree-toggle", function () {
                 const parentLi = $(this).parent();
                 const nested = parentLi.children(".nested");
@@ -198,7 +201,6 @@
                 const isOpening = !nested.hasClass("active");
 
                 if (!isOpening) {
-                    // 닫기 동작일 경우 하위 노드들도 전부 닫기
                     nested.find(".active").removeClass("active");
                     nested.find(".caret-down").removeClass("caret-down");
                 }
@@ -206,64 +208,74 @@
                 nested.toggleClass("active");
                 $(this).toggleClass("caret-down");
 
-                const ouName = $(this).data("ou");
-
-                // 사용자 정보 불러오기
-                //$.ajax({
-                //    url: "ADManager.aspx/GetUsersByOU",
-                //    type: "POST",
-                //    contentType: "application/json; charset=utf-8",
-                //    data: JSON.stringify({ ouName: ouName }),
-                //    success: function (res) {
-                //        const users = res.d;
-                //        let html = "";
-                //        users.forEach(u => {
-                //            html += `<tr>
-                //            <td>${u.Name}</td>
-                //            <td>${u.Type}</td>
-                //            <td>${u.Description}</td>
-                //        </tr>`;
-                //        });
-                //        $(".user-info tbody").html(html);
-                //    }
-                //});
+            
             });
 
-            // 3. 트리 구조 Ajax로 가져오기
-            function loadOrgTree() {
+            $(document).on("click", ".last", function () {
+                const dn = $(this).data("dn");
+                console.log("보낼 DN: ", dn);
+
                 $.ajax({
-                    url: "../AD/GetOrgTree",
+                    url: "../AD/GetUsersByOU",
                     type: "GET",
                     dataType: "json",
-                    beforeSend: function () {
-                        alert("요청 전송 준비 완료");
-                    },
+                    data: { dn: dn },
                     success: function (res) {
-                        alert("응답 받음");
-                        console.log(res);
-                        const treeHtml = buildTreeView(res);
-                        $(".tree-view").html(treeHtml);
+                        console.log("응답:", res);
+                        let html = "";
+                        res.forEach(u => {
+                            html += `<tr>
+                                        <td>${u.Name}</td>
+                                        <td>${u.Type}</td>
+                                        <td>${u.Description}</td>
+                                    </tr>`;
+                        });
+                        $(".user-info tbody").html(html);
                     },
                     error: function () {
-                        alert("응답 없음")
+                        alert("사용자 정보 불러오기 실패");
                     }
                 });
-            }
-
-            // 4. 트리뷰 HTML 재귀 생성 함수
-            function buildTreeView(nodes) {
-                let html = "";
-                nodes.forEach(n => {
-                    html += `<li>
-                    <span class="tree-toggle caret" data-ou="${n.Name}">${n.Name}</span>`;
-                    if (n.Children.length > 0) {
-                        html += `<ul class="nested">${buildTreeView(n.Children)}</ul>`;
-                    }
-                    html += `</li>`;
-                });
-                return html;
-            }
+            });
         });
+
+
+        function loadOrgTree() {
+            $.ajax({
+                url: "../AD/GetOrgTree",
+                type: "GET",
+                dataType: "json",
+                beforeSend: function () {
+                    alert("요청 전송 준비 완료");
+                },
+                success: function (res) {
+                    alert("응답 받음");
+                    console.log(res);
+                    const treeHtml = buildTreeView(res);
+                    $(".tree-view").html(treeHtml);
+                },
+                error: function () {
+                    alert("응답 없음")
+                }
+            });
+        }
+
+        function buildTreeView(nodes) {
+            let html = "";
+            nodes.forEach(n => {
+                html += `<li>`;
+
+                if (n.Children.length > 0) {
+                    html += `<span class="tree-toggle caret" data-dn="${n.DistinguishedName}">${n.Name}</span>
+                         <ul class="nested">${buildTreeView(n.Children)}</ul>`;
+                } else {
+                    html += `<span class="last" data-dn="${n.DistinguishedName}">${n.Name}</span>`
+                }
+
+                html += `</li>`;
+            });
+            return html;
+        }
     </script>
 
 </body>

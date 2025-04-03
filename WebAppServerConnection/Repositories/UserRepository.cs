@@ -9,7 +9,7 @@ using WebAppServerConnection.DTOs;
 using System.DirectoryServices.AccountManagement;
 using System.Diagnostics;
 using System.DirectoryServices;
-using WebAppServerConnection.Utils;
+
 
 namespace WebAppServerConnection.Repositories
 {
@@ -50,7 +50,7 @@ namespace WebAppServerConnection.Repositories
 
         public void CreateUserFromAD(string username, string password)
         {
-            bool isAdmin = ActiveDirectoryHelper.IsUserDomainAdmins(username, password);
+            bool isAdmin = ActiveDirectoryRepository.IsUserDomainAdmins(username, password);
 
             
 

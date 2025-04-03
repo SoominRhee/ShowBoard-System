@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using WebAppServerConnection.Utils;
+using WebAppServerConnection.Repositories;
 
 namespace WebAppServerConnection.Controllers
 {
@@ -14,19 +14,23 @@ namespace WebAppServerConnection.Controllers
         public ActionResult GetOrgTree()
         {
 
-            Debug.WriteLine("ADController.cs 진입");
-            var result = ActiveDirectoryHelper.GetOrgUnits();
-            Debug.WriteLine("result form ADController.cs: " + result);
+            Debug.WriteLine("AD/GetOrgTree 진입");
+            var result = ActiveDirectoryRepository.GetOrgUnits();
+            Debug.WriteLine("result form AD/GetOrgTree : " + result);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        //[HttpPost]
-        //public ActionResult GetUsersByOU( string ouName)
-        //{
-        //    var result = ActiveDirectoryHelper.GetUsersByOU(ouName);
-        //    return Json(result);
-        //}
+        [HttpGet]
+        public ActionResult GetUsersByOU(string dn)
+        {
+            Debug.WriteLine("AD/GetUsersByOu 진입");
+
+            var result = ActiveDirectoryRepository.GetUsersByOU(dn);
+            Debug.WriteLine("result form AD/GetUsersByOu: " + result);
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
     }
-    
+
 
 }

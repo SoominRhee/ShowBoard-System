@@ -1,13 +1,14 @@
-﻿using System;
+﻿using Newtonsoft.Json.Serialization;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.DirectoryServices;
 using System.Web.Services;
 using WebAppServerConnection.DTOs;
 
-namespace WebAppServerConnection.Utils
+namespace WebAppServerConnection.Repositories
 {
-    public class ActiveDirectoryHelper
+    public class ActiveDirectoryRepository
     {
         private const string ldapPath = "LDAP://192.168.4.120/DC=test,DC=iqpad,DC=local";
         public static bool TryLogin(string username, string password)
@@ -87,7 +88,7 @@ namespace WebAppServerConnection.Utils
             }
             catch (Exception ex)
             {
-                Debug.WriteLine("AD 연결 실패: " + ex.Message);
+                Debug.WriteLine("GetOrgUnits AD 연결 실패: " + ex.Message);
                 return new List<OrgUnitNode>();
             }
         }
@@ -97,6 +98,7 @@ namespace WebAppServerConnection.Utils
             OrgUnitNode node = new OrgUnitNode
             {
                 Name = entry.Properties["name"].Value.ToString(),
+                DistinguishedName = entry.Properties["distinguishedName"].Value.ToString(),
                 Children = new List<OrgUnitNode>()
             };
 
@@ -113,31 +115,40 @@ namespace WebAppServerConnection.Utils
 
 
 
-        //public static List<ADUser> GetUsersByOU(string ouName)
-        //{
-        //    List<ADUser> users = new List<ADUser>();
+        public static List<ADUser> GetUsersByOU(string dn)
+        {
+            Debug.WriteLine("ADHelper로 들어온 dn: " + dn);
+            List<ADUser> users = new List<ADUser>();
 
-        //    string path = $"LDAP://OU={ouName},OU=iqpad,DC=testiqpad,DC=local";
-        //    DirectoryEntry entry = new DirectoryEntry(path);
+            string path = $"LDAP://192.168.4.120/" + dn;
+            DirectoryEntry entry = new DirectoryEntry(path,"TEST\\administrator", "smstar1221!");
 
-        //    DirectorySearcher searcher = new DirectorySearcher(entry)
-        //    {
-        //        Filter = "(objectClass=user)"
-        //    };
+            DirectorySearcher searcher = new DirectorySearcher(entry)
+            {
+                Filter = "(objectClass=user)"
+            };
 
-        //    foreach (SearchResult result in searcher.FindAll())
-        //    {
-        //        DirectoryEntry user = result.GetDirectoryEntry();
+            try
+            {
+                foreach (SearchResult result in searcher.FindAll())
+                {
+                    DirectoryEntry user = result.GetDirectoryEntry();
 
-        //        users.Add(new ADUser
-        //        {
-        //            Name = user.Properties["cn"].Value?.ToString(),
-        //            Type = "User",
-        //            Description = user.Properties["description"].Value?.ToString() ?? ""
-        //        });
-        //    }
+                    users.Add(new ADUser
+                    {
+                        Name = user.Properties["cn"].Value?.ToString(),
+                        Type = "User",
+                        Description = user.Properties["description"].Value?.ToString() ?? ""
+                    });
+                }
+            }
+            catch(Exception ex)
+            {
+                Debug.WriteLine("GetUsersByOu AD 연결 실패: " + ex.Message);
+            }
 
-        //    return users;
-        //}
+            Debug.WriteLine("GetusersByOU 리턴값: " + users);
+            return users;
+        }
     }
 }

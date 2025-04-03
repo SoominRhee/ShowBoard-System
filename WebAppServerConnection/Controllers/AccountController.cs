@@ -7,7 +7,7 @@ using System.Web.Mvc;
 using WebAppServerConnection.DTOs;
 using WebAppServerConnection.Models;
 using WebAppServerConnection.Repositories;
-using WebAppServerConnection.Utils;
+
 
 namespace WebAppServerConnection.Controllers
 {
@@ -35,7 +35,7 @@ namespace WebAppServerConnection.Controllers
             if (IsAdLogin)
             {
 
-                if(ActiveDirectoryHelper.TryLogin(Username, Password))
+                if(ActiveDirectoryRepository.TryLogin(Username, Password))
                 {
                     var result = userRepository.GetUserByUsername(Username);
                     if (result == null)

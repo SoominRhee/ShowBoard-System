@@ -8,6 +8,7 @@ namespace WebAppServerConnection.DTOs
     public class OrgUnitNode
     {
         public string Name { get; set; }
+        public string DistinguishedName { get; set; }
         public List<OrgUnitNode> Children { get; set; }
     }
 }
