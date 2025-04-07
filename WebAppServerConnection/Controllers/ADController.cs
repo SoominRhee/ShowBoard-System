@@ -11,26 +11,31 @@ namespace WebAppServerConnection.Controllers
     public class ADController : Controller
     {
         [HttpGet]
-        public ActionResult GetOrgTree()
+        public ActionResult GetRootNodes()
         {
+            //string username = Session["Username"].ToString();
+            //string password = Session["Password"].ToString();
+            string username = "test"; // 수정 필요
+            string password = "test"; // 수정 필요
 
-            Debug.WriteLine("AD/GetOrgTree 진입");
-            var result = ActiveDirectoryRepository.GetOrgUnits();
-            Debug.WriteLine("result form AD/GetOrgTree : " + result);
+            var result = ActiveDirectoryRepository.GetRootNodes(username, password);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+
+
         [HttpGet]
-        public ActionResult GetUsersByOU(string dn)
+        public ActionResult GetChildNodes(string dn)
         {
-            Debug.WriteLine("AD/GetUsersByOu 진입");
+            //string username = Session["Username"].ToString();
+            //string password = Session["Password"].ToString();
+            string username = "test"; // 수정 필요
+            string password = "test"; // 수정 필요
 
-            var result = ActiveDirectoryRepository.GetUsersByOU(dn);
-            Debug.WriteLine("result form AD/GetUsersByOu: " + result);
+            Debug.WriteLine("GetChildNodes 요청 Dn: " + dn);
 
+            var result = ActiveDirectoryRepository.GetChildNodes(dn, username, password);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
     }
-
-
 }

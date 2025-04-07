@@ -29,7 +29,7 @@
             color: #F5F5F5;
 /*            font-weight: bold;*/
             min-height: 400px;
-            width: 180px;
+            width: 220px;
             padding: 20px;
             border-radius: 8px;
         }
@@ -45,6 +45,11 @@
         }
 
         .tree-toggle {
+            cursor: pointer;
+            display: inline-block;
+        }
+
+        .node-label {
             cursor: pointer;
             display: inline-block;
         }
@@ -157,14 +162,14 @@
 
     <div class="container">
         <div class="tree-box">
-            <h3>조직도</h3>
+            <h3>디렉토리 탐색기</h3>
             <ul class="tree-view">
                 
             </ul>
         </div>
 
         <div class="user-info">
-            <h3>사용자 정보</h3>
+            <h3>객체 정보</h3>
             <table>
                 <thead>
                     <tr>
@@ -188,95 +193,94 @@
             </table>
         </div>
     </div>
+    
 
     <script>
         $(document).ready(function () {
-            loadOrgTree();
+            loadADTree();
 
             $(document).on("click", ".tree-toggle", function () {
-                const parentLi = $(this).parent();
-                const nested = parentLi.children(".nested");
+                const $li = $(this).closest("li");
+                const $nested = $li.children(".nested");
 
-                // 펼치기 / 접기
-                const isOpening = !nested.hasClass("active");
+                const isOpening = !$nested.hasClass("active");
 
                 if (!isOpening) {
-                    nested.find(".active").removeClass("active");
-                    nested.find(".caret-down").removeClass("caret-down");
+                    $nested.find(".active").removeClass("active");
+                    $nested.find(".caret-down").removeClass("caret-down");
                 }
 
-                nested.toggleClass("active");
+
+                if ($nested.children(".dummy").length > 0) {
+                    const dn = $(this).data("dn");
+
+                    $.ajax({
+                        url: "../AD/GetChildNodes",
+                        type: "GET",
+                        data: { dn: dn },
+                        dataType: "json",
+                        success: function (res) {
+                            //alert("자식 노드 불러옴");
+
+                            $nested.empty();
+
+                            if (res.length > 0) {
+                                res.forEach(child => {
+                                    const html = `<li>
+                                        <span class="tree-toggle caret" data-dn=${child.DistinguishedName}>${child.Name}</span>
+                                        <ul class="nested">
+                                            <li class = "dummy"></li>
+                                        </ul>
+                                    </li>`
+                                    $nested.append(html);
+                                });
+                            } else {
+                                $nested.remove();
+                                $li.find(".tree-toggle").removeClass("caret");
+                            }
+                        },
+                        error: function () {
+                            alert("자식 노드 불러오기 실패");
+                        }
+                    })
+                }
+                $nested.toggleClass("active");
                 $(this).toggleClass("caret-down");
 
-            
-            });
-
-            $(document).on("click", ".last", function () {
-                const dn = $(this).data("dn");
-                console.log("보낼 DN: ", dn);
-
-                $.ajax({
-                    url: "../AD/GetUsersByOU",
-                    type: "GET",
-                    dataType: "json",
-                    data: { dn: dn },
-                    success: function (res) {
-                        console.log("응답:", res);
-                        let html = "";
-                        res.forEach(u => {
-                            html += `<tr>
-                                        <td>${u.Name}</td>
-                                        <td>${u.Type}</td>
-                                        <td>${u.Description}</td>
-                                    </tr>`;
-                        });
-                        $(".user-info tbody").html(html);
-                    },
-                    error: function () {
-                        alert("사용자 정보 불러오기 실패");
-                    }
-                });
             });
         });
 
 
-        function loadOrgTree() {
+        function loadADTree() {
             $.ajax({
-                url: "../AD/GetOrgTree",
+                url: "../AD/GetRootNodes",
                 type: "GET",
                 dataType: "json",
-                beforeSend: function () {
-                    alert("요청 전송 준비 완료");
-                },
                 success: function (res) {
-                    alert("응답 받음");
-                    console.log(res);
-                    const treeHtml = buildTreeView(res);
-                    $(".tree-view").html(treeHtml);
+                    //alert("루트 노드 불러옴");
+                    let html = "";
+
+                    res.forEach(n => {
+                        html += `<li>
+                            <span class="tree-toggle caret" data-dn="${n.DistinguishedName}"></span>
+                            <span class="node-label" data-dn="${n.DistinguishedName}" data-type="${n.SchemaClassName}">${n.Name}</span>
+                            <ul class="nested">
+                                <li class="dummy"></li>
+                            </ul>
+                        </li>`
+                    });
+
+                    console.log("html 내용: " + html);
+
+                    $(".tree-view").html(html);
                 },
                 error: function () {
-                    alert("응답 없음")
-                }
-            });
+                    alert("루트 노드 불러오기 실패");
+                }                
+            })
         }
-
-        function buildTreeView(nodes) {
-            let html = "";
-            nodes.forEach(n => {
-                html += `<li>`;
-
-                if (n.Children.length > 0) {
-                    html += `<span class="tree-toggle caret" data-dn="${n.DistinguishedName}">${n.Name}</span>
-                         <ul class="nested">${buildTreeView(n.Children)}</ul>`;
-                } else {
-                    html += `<span class="last" data-dn="${n.DistinguishedName}">${n.Name}</span>`
-                }
-
-                html += `</li>`;
-            });
-            return html;
-        }
+        
     </script>
-
+    
 </body>
 </html>

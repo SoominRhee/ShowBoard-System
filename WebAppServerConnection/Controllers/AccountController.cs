@@ -46,6 +46,7 @@ namespace WebAppServerConnection.Controllers
 
                     Session["UserID"] = result.ID;
                     Session["Username"] = Username;
+                    Session["Password"] = Password;
                     Session["IsAdmin"] = result.IsAdmin;
                     return Json(new { success = true, message = "AD 로그인 성공" });
                 }
@@ -61,6 +62,7 @@ namespace WebAppServerConnection.Controllers
                 {
                     Session["UserID"] = result.ID;
                     Session["Username"] = Username;
+                    Session["Password"] = Password;
                     Session["IsAdmin"] = result.IsAdmin;
                     return Json(new { success = true, message = "로그인 성공" });
                 }

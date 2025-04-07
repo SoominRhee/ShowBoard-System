@@ -135,7 +135,7 @@
     </Compile>
     <Compile Include="Controllers\ADController.cs" />
     <Compile Include="DTOs\ADUser.cs" />
-    <Compile Include="DTOs\OrgUnitNode.cs" />
+    <Compile Include="DTOs\ADTreeNode.cs" />
     <Compile Include="LdapConnectionTest.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />

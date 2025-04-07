@@ -66,89 +66,72 @@ namespace WebAppServerConnection.Repositories
 
             return false;
         }
+        
 
-        public static List<OrgUnitNode> GetOrgUnits()
+        public static List<ADTreeNode> GetRootNodes(string username, string password)
         {
+            List<ADTreeNode> result = new List<ADTreeNode>();
+
             try
             {
-                List<OrgUnitNode> result = new List<OrgUnitNode>();
+                //DirectoryEntry root = new DirectoryEntry("LDAP://192.168.4.120/DC=test.DC=iqpad,DC=local", username, password); // 나중에는 실제 로그인 값으로 동작
                 DirectoryEntry root = new DirectoryEntry("LDAP://192.168.4.120/DC=test,DC=iqpad,DC=local", "TEST\\administrator", "smstar1221!");
 
-                foreach (DirectoryEntry ou in root.Children)
+                string name = root.Properties["name"].Value?.ToString();
+                string dn = root.Properties["distinguishedName"].Value?.ToString();
+
+                result.Add(new ADTreeNode
                 {
-                    if (ou.SchemaClassName == "organizationalUnit" && ou.Properties["name"].Value.ToString() == "iqpad")
-                    {
-                        result.Add(BuildOrgUnitTree(ou));
-                    }
-                }
-                Debug.WriteLine("result form ADHelper.cs: " + result);
-
-
-                return result;
+                    Name = name,
+                    DistinguishedName = dn,
+                    SchemaClassName = root.SchemaClassName
+                });
             }
             catch (Exception ex)
             {
-                Debug.WriteLine("GetOrgUnits AD 연결 실패: " + ex.Message);
-                return new List<OrgUnitNode>();
-            }
-        }
-
-        private static OrgUnitNode BuildOrgUnitTree(DirectoryEntry entry)
-        {
-            OrgUnitNode node = new OrgUnitNode
-            {
-                Name = entry.Properties["name"].Value.ToString(),
-                DistinguishedName = entry.Properties["distinguishedName"].Value.ToString(),
-                Children = new List<OrgUnitNode>()
-            };
-
-            foreach (DirectoryEntry child in entry.Children)
-            {
-                if (child.SchemaClassName == "organizationalUnit")
-                {
-                    node.Children.Add(BuildOrgUnitTree(child)); // 재귀 호출
-                }
+                Debug.WriteLine("AD 루트 노드 로딩 실패" + ex);
             }
 
-            return node;
+            return result;
         }
 
 
-
-        public static List<ADUser> GetUsersByOU(string dn)
+        public static List<ADTreeNode> GetChildNodes(string dn, string username, string password)
         {
-            Debug.WriteLine("ADHelper로 들어온 dn: " + dn);
-            List<ADUser> users = new List<ADUser>();
-
-            string path = $"LDAP://192.168.4.120/" + dn;
-            DirectoryEntry entry = new DirectoryEntry(path,"TEST\\administrator", "smstar1221!");
-
-            DirectorySearcher searcher = new DirectorySearcher(entry)
-            {
-                Filter = "(objectClass=user)"
-            };
+            List<ADTreeNode> result = new List<ADTreeNode>();
+            Debug.WriteLine("GetChildNodes 진입");
 
             try
             {
-                foreach (SearchResult result in searcher.FindAll())
-                {
-                    DirectoryEntry user = result.GetDirectoryEntry();
+                string path = $"LDAP://192.168.4.120/{dn}";
+                DirectoryEntry entry = new DirectoryEntry(path, "TEST\\administrator", "smstar1221!");
 
-                    users.Add(new ADUser
+                foreach(DirectoryEntry child in entry.Children)
+                {
+                    if (child.SchemaClassName == "organizationalUnit" ||
+                        child.SchemaClassName == "container" ||
+                        child.SchemaClassName == "domainDNS")
                     {
-                        Name = user.Properties["cn"].Value?.ToString(),
-                        Type = "User",
-                        Description = user.Properties["description"].Value?.ToString() ?? ""
-                    });
+                        string name = child.Properties["name"].Value?.ToString();
+                        string childDn = child.Properties["distinguishedName"].Value?.ToString();
+
+                        result.Add(new ADTreeNode
+                        {
+                            Name = name,
+                            DistinguishedName = childDn,
+                            SchemaClassName = child.SchemaClassName
+                        });
+                    }
                 }
             }
             catch(Exception ex)
             {
-                Debug.WriteLine("GetUsersByOu AD 연결 실패: " + ex.Message);
+                Debug.WriteLine("GetChildNodes 실패: " + ex.Message);
             }
 
-            Debug.WriteLine("GetusersByOU 리턴값: " + users);
-            return users;
+            return result;
         }
+
+
     }
 }
