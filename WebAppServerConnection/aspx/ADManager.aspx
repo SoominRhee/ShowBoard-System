@@ -29,7 +29,7 @@
             color: #F5F5F5;
 /*            font-weight: bold;*/
             min-height: 400px;
-            width: 220px;
+            width: 225px;
             padding: 20px;
             border-radius: 8px;
         }
@@ -227,7 +227,8 @@
                             if (res.length > 0) {
                                 res.forEach(child => {
                                     const html = `<li>
-                                        <span class="tree-toggle caret" data-dn=${child.DistinguishedName}>${child.Name}</span>
+                                        <span class="tree-toggle caret" data-dn="${child.DistinguishedName}" data-type="${child.SchemaClassName}"></span>
+                                        <span class="node-label" data-dn="${child.DistinguishedName}" data-type="${child.SchemaClassName}">${child.Name}</span>
                                         <ul class="nested">
                                             <li class = "dummy"></li>
                                         </ul>
@@ -262,8 +263,8 @@
 
                     res.forEach(n => {
                         html += `<li>
-                            <span class="tree-toggle caret" data-dn="${n.DistinguishedName}"></span>
-                            <span class="node-label" data-dn="${n.DistinguishedName}" data-type="${n.SchemaClassName}">${n.Name}</span>
+                            <span class="tree-toggle caret" data-dn="${child.DistinguishedName}" data-type="${child.SchemaClassName}"></span>
+                            <span class="node-label" data-dn="${child.DistinguishedName}" data-type="${child.SchemaClassName}">${child.Name}</span>
                             <ul class="nested">
                                 <li class="dummy"></li>
                             </ul>
