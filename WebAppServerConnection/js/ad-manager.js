@@ -9,8 +9,6 @@
                 window.location.href = "MainWindow.aspx";
             } else {
                 alert("관리자 확인");
-
-                loadCategoryList();
             }
         },
         error: function () {
