@@ -119,109 +119,110 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="aspx\ADManager.aspx.cs">
+    <Compile Include="Views\ADManager.aspx.cs">
       <DependentUpon>ADManager.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="aspx\ADManager.aspx.designer.cs">
+    <Compile Include="Views\ADManager.aspx.designer.cs">
       <DependentUpon>ADManager.aspx</DependentUpon>
     </Compile>
-    <Compile Include="aspx\WebForm1.aspx.cs">
+    <Compile Include="Views\WebForm1.aspx.cs">
       <DependentUpon>WebForm1.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="aspx\WebForm1.aspx.designer.cs">
+    <Compile Include="Views\WebForm1.aspx.designer.cs">
       <DependentUpon>WebForm1.aspx</DependentUpon>
     </Compile>
     <Compile Include="Controllers\ADController.cs" />
-    <Compile Include="DTOs\ADUser.cs" />
+    <Compile Include="DTOs\ADDetail.cs" />
+    <Compile Include="DTOs\ADEntry.cs" />
     <Compile Include="DTOs\ADTreeNode.cs" />
     <Compile Include="LdapConnectionTest.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="aspx\AdminMenu.aspx.cs">
+    <Compile Include="Views\AdminMenu.aspx.cs">
       <DependentUpon>AdminMenu.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="aspx\AdminMenu.aspx.designer.cs">
+    <Compile Include="Views\AdminMenu.aspx.designer.cs">
       <DependentUpon>AdminMenu.aspx</DependentUpon>
     </Compile>
-    <Compile Include="aspx\BoardCreate.aspx.cs">
+    <Compile Include="Views\BoardCreate.aspx.cs">
       <DependentUpon>BoardCreate.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="aspx\BoardCreate.aspx.designer.cs">
+    <Compile Include="Views\BoardCreate.aspx.designer.cs">
       <DependentUpon>BoardCreate.aspx</DependentUpon>
     </Compile>
-    <Compile Include="aspx\BoardList.aspx.cs">
+    <Compile Include="Views\BoardList.aspx.cs">
       <DependentUpon>BoardList.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="aspx\BoardList.aspx.designer.cs">
+    <Compile Include="Views\BoardList.aspx.designer.cs">
       <DependentUpon>BoardList.aspx</DependentUpon>
     </Compile>
-    <Compile Include="aspx\Login.aspx.cs">
+    <Compile Include="Views\Login.aspx.cs">
       <DependentUpon>Login.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="aspx\Login.aspx.designer.cs">
+    <Compile Include="Views\Login.aspx.designer.cs">
       <DependentUpon>Login.aspx</DependentUpon>
     </Compile>
-    <Compile Include="aspx\Login2.aspx.cs">
+    <Compile Include="Views\Login2.aspx.cs">
       <DependentUpon>Login2.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="aspx\Login2.aspx.designer.cs">
+    <Compile Include="Views\Login2.aspx.designer.cs">
       <DependentUpon>Login2.aspx</DependentUpon>
     </Compile>
-    <Compile Include="aspx\LoginFail.aspx.cs">
+    <Compile Include="Views\LoginFail.aspx.cs">
       <DependentUpon>LoginFail.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="aspx\LoginFail.aspx.designer.cs">
+    <Compile Include="Views\LoginFail.aspx.designer.cs">
       <DependentUpon>LoginFail.aspx</DependentUpon>
     </Compile>
-    <Compile Include="aspx\LoginSuccess.aspx.cs">
+    <Compile Include="Views\LoginSuccess.aspx.cs">
       <DependentUpon>LoginSuccess.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="aspx\LoginSuccess.aspx.designer.cs">
+    <Compile Include="Views\LoginSuccess.aspx.designer.cs">
       <DependentUpon>LoginSuccess.aspx</DependentUpon>
     </Compile>
-    <Compile Include="aspx\MainWindow.aspx.cs">
+    <Compile Include="Views\MainWindow.aspx.cs">
       <DependentUpon>MainWindow.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="aspx\MainWindow.aspx.designer.cs">
+    <Compile Include="Views\MainWindow.aspx.designer.cs">
       <DependentUpon>MainWindow.aspx</DependentUpon>
     </Compile>
-    <Compile Include="aspx\PerformanceCreate.aspx.cs">
+    <Compile Include="Views\PerformanceCreate.aspx.cs">
       <DependentUpon>PerformanceCreate.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="aspx\PerformanceCreate.aspx.designer.cs">
+    <Compile Include="Views\PerformanceCreate.aspx.designer.cs">
       <DependentUpon>PerformanceCreate.aspx</DependentUpon>
     </Compile>
-    <Compile Include="aspx\PerformanceList.aspx.cs">
+    <Compile Include="Views\PerformanceList.aspx.cs">
       <DependentUpon>PerformanceList.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="aspx\PerformanceList.aspx.designer.cs">
+    <Compile Include="Views\PerformanceList.aspx.designer.cs">
       <DependentUpon>PerformanceList.aspx</DependentUpon>
     </Compile>
-    <Compile Include="aspx\PerformanceReservation.aspx.cs">
+    <Compile Include="Views\PerformanceReservation.aspx.cs">
       <DependentUpon>PerformanceReservation.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="aspx\PerformanceReservation.aspx.designer.cs">
+    <Compile Include="Views\PerformanceReservation.aspx.designer.cs">
       <DependentUpon>PerformanceReservation.aspx</DependentUpon>
     </Compile>
-    <Compile Include="aspx\ReservationList.aspx.cs">
+    <Compile Include="Views\ReservationList.aspx.cs">
       <DependentUpon>ReservationList.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="aspx\ReservationList.aspx.designer.cs">
+    <Compile Include="Views\ReservationList.aspx.designer.cs">
       <DependentUpon>ReservationList.aspx</DependentUpon>
     </Compile>
     <Compile Include="Controllers\AccountController.cs" />
@@ -246,20 +247,22 @@
     <Compile Include="Repositories\ActiveDirectoryRepository.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="aspx\ADManager.aspx" />
-    <Content Include="aspx\AdminMenu.aspx" />
-    <Content Include="aspx\BoardCreate.aspx" />
-    <Content Include="aspx\BoardList.aspx" />
-    <Content Include="aspx\Login.aspx" />
-    <Content Include="aspx\Login2.aspx" />
-    <Content Include="aspx\LoginFail.aspx" />
-    <Content Include="aspx\LoginSuccess.aspx" />
-    <Content Include="aspx\MainWindow.aspx" />
-    <Content Include="aspx\PerformanceCreate.aspx" />
-    <Content Include="aspx\PerformanceList.aspx" />
-    <Content Include="aspx\PerformanceReservation.aspx" />
-    <Content Include="aspx\ReservationList.aspx" />
-    <Content Include="aspx\WebForm1.aspx" />
+    <Content Include="css\admanager.css" />
+    <Content Include="js\ad-manager.js" />
+    <Content Include="Views\ADManager.aspx" />
+    <Content Include="Views\AdminMenu.aspx" />
+    <Content Include="Views\BoardCreate.aspx" />
+    <Content Include="Views\BoardList.aspx" />
+    <Content Include="Views\Login.aspx" />
+    <Content Include="Views\Login2.aspx" />
+    <Content Include="Views\LoginFail.aspx" />
+    <Content Include="Views\LoginSuccess.aspx" />
+    <Content Include="Views\MainWindow.aspx" />
+    <Content Include="Views\PerformanceCreate.aspx" />
+    <Content Include="Views\PerformanceList.aspx" />
+    <Content Include="Views\PerformanceReservation.aspx" />
+    <Content Include="Views\ReservationList.aspx" />
+    <Content Include="Views\WebForm1.aspx" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-grid.rtl.css" />
@@ -318,18 +321,18 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="Views\Web.config" />
-    <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views_\Web.config" />
+    <Content Include="Views_\_ViewStart.cshtml" />
+    <Content Include="Views_\Shared\Error.cshtml" />
+    <Content Include="Views_\Shared\_Layout.cshtml" />
+    <Content Include="Views_\Home\About.cshtml" />
+    <Content Include="Views_\Home\Contact.cshtml" />
+    <Content Include="Views_\Home\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\AD\" />
-    <Folder Include="Views\Reservation\" />
+    <Folder Include="Views_\AD\" />
+    <Folder Include="Views_\Reservation\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />

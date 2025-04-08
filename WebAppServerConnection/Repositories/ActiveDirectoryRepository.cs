@@ -36,6 +36,8 @@ namespace WebAppServerConnection.Repositories
         {
             try
             {
+                string fullUsername = "TEST\\" + username;
+
                 using (DirectoryEntry entry = new DirectoryEntry(ldapPath, username, password))
                 {
                     using (DirectorySearcher searcher = new DirectorySearcher(entry))
@@ -61,7 +63,7 @@ namespace WebAppServerConnection.Repositories
             }
             catch (Exception ex)
             {
-                Debug.WriteLine("❌ AD에서 그룹 조회 중 오류: " + ex.Message);
+                Debug.WriteLine("AD에서 그룹 조회 중 오류: " + ex.Message);
             }
 
             return false;
@@ -74,8 +76,11 @@ namespace WebAppServerConnection.Repositories
 
             try
             {
-                //DirectoryEntry root = new DirectoryEntry("LDAP://192.168.4.120/DC=test.DC=iqpad,DC=local", username, password); // 나중에는 실제 로그인 값으로 동작
-                DirectoryEntry root = new DirectoryEntry("LDAP://192.168.4.120/DC=test,DC=iqpad,DC=local", "TEST\\administrator", "smstar1221!");
+                string fullUsername = "TEST\\" + username;
+
+                //DirectoryEntry root = new DirectoryEntry("LDAP://192.168.4.120/DC=test,DC=iqpad,DC=local", "TEST\\administrator", "smstar1221!"); // 수정 필요
+
+                DirectoryEntry root = new DirectoryEntry(ldapPath, fullUsername, password);
 
                 string name = root.Properties["name"].Value?.ToString();
                 string dn = root.Properties["distinguishedName"].Value?.ToString();
@@ -103,8 +108,13 @@ namespace WebAppServerConnection.Repositories
 
             try
             {
+                string fullUsername = "TEST\\" + username;
+
                 string path = $"LDAP://192.168.4.120/{dn}";
-                DirectoryEntry entry = new DirectoryEntry(path, "TEST\\administrator", "smstar1221!");
+
+                //DirectoryEntry entry = new DirectoryEntry(path, "TEST\\administrator", "smstar1221!"); // 수정 필요
+
+                DirectoryEntry entry = new DirectoryEntry(path, fullUsername, password);
 
                 foreach(DirectoryEntry child in entry.Children)
                 {
@@ -131,6 +141,73 @@ namespace WebAppServerConnection.Repositories
 
             return result;
         }
+
+
+        public static List<ADEntry> GetChildrenFlat(string dn, string username, string password)
+        {
+            List<ADEntry> result = new List<ADEntry>();
+
+            try
+            {
+                string fullUsername = "TEST\\" + username;
+
+                string path = $"LDAP://192.168.4.120/{dn}";
+                //DirectoryEntry entry = new DirectoryEntry(path, "TEST\\administrator", "smstar1221!"); // 수정 필요
+
+                DirectoryEntry entry = new DirectoryEntry(path, fullUsername, password);
+
+                foreach (DirectoryEntry child in entry.Children)
+                {
+                    result.Add(new ADEntry
+                    {
+                        Name = child.Properties["name"].Value?.ToString(),
+                        Type = child.SchemaClassName,
+                        Description = child.Properties["description"].Value?.ToString() ?? "",
+                        DistinguishedName = child.Properties["distinguishedName"]?.Value?.ToString()
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("GetChildrenFlat 오류: " + ex.Message);
+            }
+
+            return result;
+        }
+
+
+        public static ADDetail GetDetails(string dn, string username, string password)
+        {
+            ADDetail detail = new ADDetail();
+
+            try
+            {
+                string fullUsername = "TEST\\" + username;
+                string path = $"LDAP://192.168.4.120/{dn}";
+
+                //DirectoryEntry entry = new DirectoryEntry(path, "TEST\\administrator", "smstar1221!"); // 수정 필요
+
+                DirectoryEntry entry = new DirectoryEntry(path, fullUsername, password);
+
+
+                detail.Name = entry.Properties["name"].Value?.ToString();
+                detail.Type = entry.SchemaClassName;
+                detail.Description = entry.Properties["description"].Value?.ToString();
+                detail.DisplayName = entry.Properties["displayName"].Value?.ToString();
+                detail.DistinguishedName = entry.Properties["distinguishedName"].Value?.ToString();
+                detail.Guid = entry.Guid.ToString();
+                detail.SamAccountName = entry.Properties["sAMAccountName"].Value?.ToString();
+                detail.Mail = entry.Properties["mail"].Value?.ToString();
+                detail.Created = entry.Properties["whenCreated"].Value?.ToString();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("GetDetails 오류: " + ex.Message);
+            }
+
+            return detail;
+        }
+
 
 
     }

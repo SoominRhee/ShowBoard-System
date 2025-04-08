@@ -13,10 +13,11 @@ namespace WebAppServerConnection.Controllers
         [HttpGet]
         public ActionResult GetRootNodes()
         {
-            //string username = Session["Username"].ToString();
-            //string password = Session["Password"].ToString();
-            string username = "test"; // 수정 필요
-            string password = "test"; // 수정 필요
+            string username = Session["Username"].ToString();
+            string password = Session["Password"].ToString();
+
+            //string username = "test"; // 수정 필요
+            //string password = "test"; // 수정 필요
 
             var result = ActiveDirectoryRepository.GetRootNodes(username, password);
             return Json(result, JsonRequestBehavior.AllowGet);
@@ -27,15 +28,46 @@ namespace WebAppServerConnection.Controllers
         [HttpGet]
         public ActionResult GetChildNodes(string dn)
         {
-            //string username = Session["Username"].ToString();
-            //string password = Session["Password"].ToString();
-            string username = "test"; // 수정 필요
-            string password = "test"; // 수정 필요
+            string username = Session["Username"].ToString();
+            string password = Session["Password"].ToString();
+
+            //string username = "test"; // 수정 필요
+            //string password = "test"; // 수정 필요
 
             Debug.WriteLine("GetChildNodes 요청 Dn: " + dn);
 
             var result = ActiveDirectoryRepository.GetChildNodes(dn, username, password);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
+
+
+        [HttpGet]
+        public ActionResult GetChildrenFlat(string dn)
+        {
+            string username = Session["Username"].ToString();
+            string password = Session["Password"].ToString();
+
+            //string username = "test"; // 수정 필요
+            //string password = "test"; // 수정 필요
+
+            Debug.WriteLine("GetChildFlat 요청 Dn: " + dn);
+
+            var result = ActiveDirectoryRepository.GetChildrenFlat(dn, username, password);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public ActionResult GetDetails(string dn)
+        {
+            string username = Session["Username"].ToString();
+            string password = Session["Password"].ToString();
+
+            //string username = "test"; // 수정 필요
+            //string password = "test"; // 수정 필요
+
+            var result = ActiveDirectoryRepository.GetDetails(dn, username, password);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
     }
 }

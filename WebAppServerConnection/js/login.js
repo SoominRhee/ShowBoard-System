@@ -41,7 +41,7 @@ $(document).ready(function () {
                     window.location.href = "MainWindow.aspx";
                 } else {
                     alert(response.message);
-                    window.location.href = "LoginFail.aspx"
+                    window.location.href = "Login.aspx"
                 }
             },
             error: function () {
