@@ -24,6 +24,29 @@ namespace WebAppServerConnection.Repositories
                 {
                     try
                     {
+                        string checkQuery = "SELECT IsAvailableNum, ReservationNum FROM Performances WHERE ID = @PerformanceID";
+                        using (SqlCommand checkCmd = new SqlCommand(checkQuery, connection, transaction))
+                        {
+                            checkCmd.Parameters.AddWithValue("@PerformanceID", performanceId);
+                            using (SqlDataReader reader = checkCmd.ExecuteReader())
+                            {
+                                if (reader.Read())
+                                {
+                                    int available = Convert.ToInt32(reader["IsAvailableNum"]);
+                                    int reserved = Convert.ToInt32(reader["ReservationNum"]);
+
+                                    if (reserved >= available)
+                                    {
+                                        return false;
+                                    }
+                                }
+                                else
+                                {
+                                    return false;
+                                }
+                            }
+                        }
+
                         string insertQuery = "INSERT INTO User_Reservations (UserID, PerformanceID, ReservationDate) VALUES (@UserID, @PerformanceID, GETDATE())";
                         using (SqlCommand insertCmd = new SqlCommand(insertQuery, connection, transaction))
                         {
@@ -45,7 +68,7 @@ namespace WebAppServerConnection.Repositories
                     }
                     catch (Exception ex)
                     {
-                        Debug.WriteLine("❌ 트랜잭션 오류 발생: " + ex.Message);
+                        Debug.WriteLine("트랜잭션 오류 발생: " + ex.Message);
                         transaction.Rollback();
                         return false;
                     }

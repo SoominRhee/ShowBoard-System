@@ -1,4 +1,26 @@
 ﻿$(document).ready(function () {
+    console.log("페이지로드");
+    //alert("페이지 로드");
+    $.ajax({
+        url: "../Account/CheckAdmin",
+        type: "GET",
+        dataType: "json",
+        success: function (response) {
+            if (!response.isAdmin) {
+                alert("관리자만 접근 가능합니다.");
+                window.location.href = "MainWindow.aspx";
+            } else {
+                alert("관리자 확인");
+
+                loadCategoryList();
+            }
+        },
+        error: function () {
+            alert("권한 확인 중 오류 발생");
+            window.location.href = "Login.aspx";
+        }
+    });
+
     $(".create-btn").click(function () {
         let category = $("#category").val();
         let artist = $("#artist").val();

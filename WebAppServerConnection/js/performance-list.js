@@ -19,6 +19,14 @@ function loadPerformanceList(keyword) {
             tableBody.empty();
 
             $.each(data, function (index, item) {
+                console.log(item.Artist, item.IsAvailableNum, item.ReservationNum);
+                let remainingSeats = item.IsAvailableNum - item.ReservationNum;
+                console.log(remainingSeats);
+                let reserveBtn = remainingSeats <= 0
+                    ? `<button class="reservation-btn" disabled>예약 불가</button>`
+                    : `<button class="reservation-btn">예약</button>`;
+
+
                 var row =
                     `<tr data-id="${item.ID}">
                         <td>${item.Date}</td>
@@ -27,7 +35,7 @@ function loadPerformanceList(keyword) {
                         <td>${item.Location}</td>
                         <td>${item.Details.replace(/\n/g, "<br>")}</td>
                         <td>${item.Link}</td>
-                        <td><button class="reservation-btn">예약</td>
+                        <td>${reserveBtn}</td>
                     </tr>`;
                 tableBody.append(row);
             });

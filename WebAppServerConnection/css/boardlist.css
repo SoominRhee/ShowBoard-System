@@ -70,6 +70,20 @@ th {
     border-radius: 1px;
 }
 
+.delete-btn:hover,
+.reservation-btn:not(:disabled):hover,
+.detail-btn:hover,
+.info-btn:hover {
+    background-color: #c0c0c0;
+}
+
+
+.reservation-btn:disabled {
+    background-color: #eeeeee;
+    color: #aaa;
+    cursor: not-allowed;
+}
+
 .pagination {
     text-align: center;
     margin-top: 10px;
@@ -82,3 +96,4 @@ th {
     cursor: pointer;
     margin: 2px;
 }
+

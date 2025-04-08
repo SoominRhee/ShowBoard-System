@@ -23,7 +23,7 @@ namespace WebAppServerConnection.Repositories
             using(SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
-                string query = @"SELECT ID, Date, Category, Artist, Location, Details, Link 
+                string query = @"SELECT ID, Date, Category, Artist, Location, Details, Link, IsAvailableNum, ReservationNum 
                                  From Performances
                                  WHERE Artist Like @Keyword";
 
@@ -42,7 +42,9 @@ namespace WebAppServerConnection.Repositories
                                 Artist = reader["Artist"].ToString(),
                                 Location = reader["Location"].ToString(),
                                 Details = reader["Details"].ToString(),
-                                Link= reader["Link"].ToString()
+                                Link= reader["Link"].ToString(),
+                                IsAvailableNum = Convert.ToInt32(reader["IsAvailableNum"]),
+                                ReservationNum = Convert.ToInt32(reader["ReservationNum"])
                             });
                         }
                     }

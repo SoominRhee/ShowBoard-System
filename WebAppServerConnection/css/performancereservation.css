@@ -1,8 +1,13 @@
 ﻿.container {
-    padding: 20px;
-    border-radius: 10px;
-    width: 80%;
-    margin: 0 auto;
+    width: 100%;
+    height: auto;
+    background-color: white;
+    margin: 20px auto;
+    gap: 10px;
+    border-radius: 8px;
+    border: 2px solid #ccc;
+    /*    padding: 10px;*/
+    padding: 20px 40px;
 }
 
 .details-box {
@@ -46,15 +51,23 @@
 }
 
 .reservation-btn {
-    background-color: lightgray;
-    border: none;
-    padding: 10px 20px;
+    background: #668fda;
+    border-radius: 5px;
+    height: 35px;
     cursor: pointer;
-    margin-left: 20px;
-    border-radius: 4px;
+    padding: 0 15px;
+    color: white;
+    font-weight: bold;
+    border: 1px solid #ccc;
 }
 
-    .reservation-btn:hover {
-        background-color: #ddd;
-    }
+.reservation-btn:disabled {
+    background-color: #b0bedf;
+    cursor: not-allowed;
+    color: #eee;
+}
+
+.reservation-btn:hover {
+    background-color: #507acc;
+}
 

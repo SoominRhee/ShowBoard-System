@@ -6,6 +6,12 @@
         success: function (data) { 
             //console.log("서버 응답:", data);
 
+            let remainingSeats = data.IsAvailableNum - data.ReservationNum;
+
+            let reserveBtn = remainingSeats <= 0
+                ? `<button class="reservation-btn" disabled>예약 불가</button>`
+                : `<button class="reservation-btn">예약</button>`;
+
             document.getElementById("info").innerHTML = `
             <div class="details-box">
                 ${data.Details.replace(/\n/g, "<br>")}
@@ -16,7 +22,7 @@
             <label for="reservationDate">예약 :</label>
             <input type="date" id="reservationDate" class="date-input">
             <div class="button-container">
-                <button class="reservation-btn">예약</button>
+                ${reserveBtn}
             </div>
             `
         },
