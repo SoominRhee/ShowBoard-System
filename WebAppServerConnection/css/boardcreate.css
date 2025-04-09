@@ -54,7 +54,7 @@ input, textarea {
     display: flex;
     justify-content: flex-end;
 /*    margin-bottom: 10px;*/
-    width: 100%; /* ✅ 부모를 화면 너비만큼 확장 */
+    width: 100%;
 }
 
 .create-btn {

@@ -1,0 +1,16 @@
+﻿input.form-control {
+    height: 40px;
+}
+
+#btnLogin {
+    height: 43px;
+    background-color: #668fda;
+    border: none;
+    color: #fff;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+}
+
+    #btnLogin:hover {
+        background-color: #507acc;
+    }

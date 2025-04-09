@@ -7,12 +7,13 @@
     <title>로그인</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="/js/login.js"></script>
-     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/login.css" />
 </head>
 <body style="background-color:#f5f5f5;">
     <div>
         <div class="container mt-5">
-            <div class="card mx-auto shadow" style="max-width: 500px; padding: 30px;">
+            <div class="card mx-auto shadow" style="max-width: 450px; padding: 40px;">
                 <h2 class="text-center mb-4 fs-2 fw-bold">Login</h2>
 
                 <label class="form-label fs-6">아이디:</label>
@@ -28,11 +29,10 @@
                     </label>
                 </div>
 
-                <button type="button" id="btnLogin" class="btn btn-primary w-100">로그인</button>
+                <button type="button" id="btnLogin" class="btn w-100">로그인</button>
             </div>      
         </div>  
         <div id="resultContainer" class="text-center mt-3"></div>
     </div>
 </body>
-
 </html>
