@@ -112,12 +112,12 @@ th {
     width: 400px;
 }
 
-    .detail-popup .close-btn {
-        float: right;
-        font-size: 20px;
-        cursor: pointer;
-    }
+.detail-popup .close-btn {
+    float: right;
+    font-size: 20px;
+    cursor: pointer;
+}
 
-        .detail-popup .close-btn:hover {
-            color: red;
-        }
+.detail-popup .close-btn:hover {
+    color: red;
+}

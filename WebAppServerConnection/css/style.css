@@ -53,17 +53,17 @@
     margin: 10px;
 }
 
-    .menu a {
-        display: block;
-        color: white;
-        padding: 1px;
-        text-decoration: none;
-        text-align: center;
-        margin: 5px;
+.menu a {
+    display: block;
+    color: white;
+    padding: 1px;
+    text-decoration: none;
+    text-align: center;
+    margin: 5px;
         
-    }
+}
 
-        .menu a:hover {
-            background-color: #5b7db5;
-        }
+.menu a:hover {
+    background-color: #5b7db5;
+}
 
