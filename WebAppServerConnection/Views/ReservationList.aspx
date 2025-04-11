@@ -94,7 +94,7 @@
         <div id="detailModal" class="modal">
             <span class="close">&times;</span>
             <h2>공연 상세 정보</h2>
-            <p id="detailContent">여기에 상세 정보가 들어갑니다.</p>
+            <p id="detailContent">상세 정보</p>
         </div>
 
     </div>

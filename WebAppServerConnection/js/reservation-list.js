@@ -57,7 +57,9 @@ $(document).on("click", ".detail-btn", function () {
                 <strong>Category:</strong> ${response.Category}<br>
                 <strong>Artist:</strong> ${response.Artist}<br>
                 <strong>장소:</strong> ${response.Location}<br>
-                <strong>예약 좌석:</strong> ${response.isAvailableNum}<br>
+                <strong>공연내용:</strong> ${response.Details}<br>
+                <strong>링크:</strong> ${response.Link}<br>
+                <strong>총 좌석 수:</strong> ${response.IsAvailableNum}<br>
                 <strong>예약 완료:</strong> ${response.ReservationNum}
             `);
 

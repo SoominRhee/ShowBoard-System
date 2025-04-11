@@ -86,7 +86,6 @@
     </div>
     <div class="detail-popup" id="detail-box">
         <div class="detail-content">
-        <span class="close-btn">&times;</span>
         
         </div>
     </div>
