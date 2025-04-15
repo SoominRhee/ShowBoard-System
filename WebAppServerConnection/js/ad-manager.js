@@ -104,6 +104,7 @@
             dataType: "json",
             success: function (res) {
                 //alert("상세 정보 가져오기 성공")
+                $("#detail-box .detail-content").empty();
                 $("#detail-box .detail-content").html(`<span class="close-btn">&times;</span>`);
 
                 let html = "";
@@ -130,7 +131,6 @@
 
     $(document).on("click", ".close-btn", function () {
         $("#detail-box").fadeOut();
-        $("#detail-box .detail-content").html(`<span class="close-btn">&times;</span>`);
     });
 
 });

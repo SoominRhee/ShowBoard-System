@@ -110,6 +110,9 @@ th {
     z-index: 1000;
     box-shadow: 0 4px 10px rgba(0,0,0,0.3);
     width: 400px;
+    word-wrap: break-word;
+    white-space: normal;
+    overflow-wrap: anywhere;
 }
 
 .detail-popup .close-btn {
