@@ -126,3 +126,7 @@ th {
 .detail-popup .close-btn:hover {
     color: red;
 }
+
+.context-menu-item:hover {
+    background-color: #c0c0c0;
+}

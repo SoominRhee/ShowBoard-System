@@ -69,5 +69,19 @@ namespace WebAppServerConnection.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+
+        [HttpGet]
+        public ActionResult GetAllowedChildClasses(string dn)
+        {
+            Debug.WriteLine("Controller: GetAllowedChildClasses 진입");
+
+            string username = Session["Username"].ToString();
+            string password = Session["Password"].ToString();
+
+            var result = ActiveDirectoryRepository.GetAllowedChildClasses(dn, username, password);
+            Debug.WriteLine("Controller - 허용 클래스 개수: " + result.Count);
+            return Json(result, JsonRequestBehavior.AllowGet);
+            
+        }
     }
 }

@@ -94,7 +94,6 @@
 
 
     $(document).on("dblclick", ".main-table-body tr", function () {
-        $
         const dn = $(this).data("dn");
         //alert("상세 정보 가져오기")
         $.ajax({
@@ -163,3 +162,67 @@ function loadADTree() {
         }
     })
 }
+
+//------------------------------------------------------------------------------------
+
+$(document).on("contextmenu", ".node-label", function (e) {
+    e.preventDefault();
+
+    const dn = $(this).data("dn");
+    $(".context-menu").remove();
+
+    $.ajax({
+        url: "/AD/GetAllowedChildClasses",
+        type: "GET",
+        data: { dn: dn },
+        success: function (allowedClasses) {
+            showContextMenu(e.pageX, e.pageY, dn, allowedClasses);
+        },
+        error: function () {
+            alert("메뉴 요청 실패");
+        }
+    });
+});
+
+
+function showContextMenu(x, y, dn, allowedClasses) {
+    const classMap = {
+        user: "Create User",
+        group: "Create Group",
+        organizationalunit: "Create OU"
+    };
+
+    const $menu = $("<ul>", {
+        class: "context-menu",
+        css: {
+            position: "absolute",
+            top: y-10,
+            left: x,
+            background: "#fff",
+            border: "1px solid #ccc",
+            padding: "5px",
+            "z-index": 1000,
+            "list-style": "none"
+        }
+    });
+
+    allowedClasses.forEach(cls => {
+        if (classMap[cls]) {
+            const $item = $("<li>", {
+                class: "context-menu-item",
+                text: classMap[cls],
+                "data-dn": dn,
+                "data-class": cls
+            });
+            $menu.append($item);
+        }
+    });
+
+    $("body").append($menu);
+}
+
+$(document).on("mousedown contextmenu", function (e) {
+    if (!$(e.target).closest(".context-menu, .node-label").length) {
+        $(".context-menu").remove();
+    }
+});

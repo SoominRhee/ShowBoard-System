@@ -209,6 +209,41 @@ namespace WebAppServerConnection.Repositories
         }
 
 
+        public static List<string> GetAllowedChildClasses(string dn, string username, string password)
+        {
+            var result = new List<string>();
+            Debug.WriteLine("Repository: GetAllowedChildClasses 진입");
+            try
+            {
+                string fullUsername = "TEST\\" + username;
+                string path = $"LDAP://192.168.4.120/{dn}";
+
+                using (var entry = new DirectoryEntry(path, fullUsername, password))
+                {
+                    Debug.WriteLine("DN: " + entry.Properties["distinguishedName"].Value);
+
+                    entry.RefreshCache(new[] { "allowedChildClassesEffective" });
+
+                    var allowed = entry.Properties["allowedChildClassesEffective"];
+                    if (allowed != null)
+                    {
+                        foreach (var cls in allowed)
+                        {
+                            result.Add(cls.ToString().ToLower());
+                        }
+                    }
+                }
+                
+            }
+            catch(Exception ex)
+            {
+                Debug.WriteLine("GetAllowdChildClasses 오류" + ex.Message);
+            }
+
+            Debug.WriteLine("Repository - 허용 클래스 개수: " + result.Count);
+            return result;
+        }
+
 
     }
 }
