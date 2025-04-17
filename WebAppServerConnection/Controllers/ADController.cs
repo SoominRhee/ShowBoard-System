@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using WebAppServerConnection.Repositories;
+using WebAppServerConnection.DTOs;
 
 namespace WebAppServerConnection.Controllers
 {
@@ -83,5 +84,28 @@ namespace WebAppServerConnection.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
             
         }
+
+
+        [HttpPost]
+        public ActionResult CreateUser(UserCreateModel model)
+        {
+            try
+            {
+                Debug.WriteLine("Controller: CreateUser 진입");
+
+                string username = Session["Username"].ToString();
+                string password = Session["Password"].ToString();
+
+                ActiveDirectoryRepository.CreateUser(model, username, password);
+                return Json(new { success = true, message = "사용자 생성 완료" }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
+
     }
 }

@@ -132,6 +132,29 @@
         $("#detail-box").fadeOut();
     });
 
+
+    //test
+    $("#userCreateForm").on("submit", function (e) {
+        e.preventDefault();
+
+        const data = $(this).serialize(); 
+
+        $.ajax({
+            url: "/AD/CreateUser",
+            type: "POST",
+            data: data,
+            success: function (res) {
+                alert(res.message);
+                $("#userCreateModal").hide();
+                // TODO: 트리뷰 갱신
+            },
+            error: function () {
+                alert("User 생성 실패");
+            }
+        });
+    });
+
+
 });
 
 
@@ -196,7 +219,7 @@ function showContextMenu(x, y, dn, allowedClasses) {
         class: "context-menu",
         css: {
             position: "absolute",
-            top: y-10,
+            top: y-15,
             left: x,
             background: "#fff",
             border: "1px solid #ccc",
@@ -226,3 +249,24 @@ $(document).on("mousedown contextmenu", function (e) {
         $(".context-menu").remove();
     }
 });
+
+
+//------------------------------------------------------------------------------------
+
+$(document).on("click", ".context-menu-item", function () {
+    const dn = $(this).data("dn");
+    const cls = $(this).data("class");
+
+    if (cls === "user") {
+        openCreateUserForm(dn);
+    }
+    // group, ou는 이후에 연결
+});
+
+
+function openCreateUserForm(dn) {
+    $("#userParentDn").val(dn);
+    $("#userCreateModal").show();
+}
+
+

@@ -89,5 +89,29 @@
         
         </div>
     </div>
+
+    <div id="userCreateModal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <h3>Create New User</h3>
+            <form id="userCreateForm">
+                <input type="hidden" name="parentDn" id="userParentDn" />
+                <label>First Name</label>
+                <input type="text" name="firstName" required />
+                <label>Initials</label>
+                <input type="text" name="initials" />
+                <label>Last Name</label>
+                <input type="text" name="lastName" required />
+                <label>User Logon Name</label>
+                <input type="text" name="logonName" required />
+                <label>Password</label>
+                <input type="password" name="password" required />
+                <label><input type="checkbox" name="cannotChangePassword" checked /> User cannot change password</label>
+                <div class="modal-actions">
+                    <button type="submit">Create</button>
+                    <button type="button" onclick="$('#userCreateModal').hide()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </body>
 </html>

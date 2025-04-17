@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.DirectoryServices;
+using System.Text.RegularExpressions;
 using System.Web.Services;
 using WebAppServerConnection.DTOs;
 
@@ -243,6 +244,69 @@ namespace WebAppServerConnection.Repositories
             Debug.WriteLine("Repository - 허용 클래스 개수: " + result.Count);
             return result;
         }
+
+
+
+        public static void CreateUser(UserCreateModel model, string username, string password)
+        {
+            string fullUsername = "TEST\\" + username;
+            string path = $"LDAP://192.168.4.120/{model.ParentDn}";
+
+            try
+            {
+                using (var parent = new DirectoryEntry(path, fullUsername, password))
+                {
+                    Debug.WriteLine("Repository: CreateUser 진입");
+
+                    string fullName = $"{model.FirstName} {model.LastName} {DateTime.Now.Ticks}".Trim();
+                    fullName = Regex.Replace(fullName, @"[,+""<>;=\\#]", "");
+
+                    var user = parent.Children.Add("CN=" + fullName, "user");
+
+                    string lastName = string.IsNullOrWhiteSpace(model.LastName) ? "NoLastName" : model.LastName;
+
+                    string baseSam = model.LogonName;
+                    string randomSuffix = DateTime.Now.Ticks.ToString().Substring(10);
+                    string sam = (baseSam + randomSuffix).Length > 20
+                        ? (baseSam + randomSuffix).Substring(0, 20)
+                        : baseSam + randomSuffix;
+
+                    string upn = model.LogonName + "@test.iqpad.local";
+
+                    user.Properties["sAMAccountName"].Value = sam;
+                    user.Properties["userPrincipalName"].Value = upn;
+                    user.Properties["displayName"].Value = fullName;
+                    user.Properties["sn"].Value = lastName;
+                    user.Properties["givenName"].Value = model.FirstName;
+                    user.Properties["name"].Value = fullName;
+                    user.Properties["pwdLastSet"].Value = 0;
+
+                    user.CommitChanges();
+                    Debug.WriteLine("사용자 초기 등록 완료");
+
+                    user.Invoke("SetPassword", new object[] { model.Password });
+                    Debug.WriteLine("비밀번호 설정 완료");
+
+                    user.InvokeSet("AccountDisabled", new object[] { false });
+                    user.CommitChanges();
+                    Debug.WriteLine("사용자 활성화 완료");
+
+                    if (model.CannotChangePassword)
+                    {
+                        Debug.WriteLine("비밀번호 변경 불가' 설정은 아직 구현되지 않음");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("예외 발생: " + ex.ToString());
+                if (ex.InnerException != null)
+                    Debug.WriteLine("내부 예외: " + ex.InnerException.ToString());
+                throw;
+            }
+        }
+
+
 
 
     }

@@ -40,7 +40,7 @@ namespace WebAppServerConnection.Controllers
                     var result = userRepository.GetUserByUsername(Username);
                     if (result == null)
                     {
-                        userRepository.CreateUserFromAD(Username, Password); // 새 메서드 필요
+                        userRepository.CreateUserFromAD(Username, Password); 
                         result = userRepository.GetUserByUsername(Username);
                     }
 

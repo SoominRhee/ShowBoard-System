@@ -130,3 +130,17 @@ th {
 .context-menu-item:hover {
     background-color: #c0c0c0;
 }
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: white;
+    border: 1px solid #ccc;
+    padding: 20px;
+    z-index: 1000;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+}
+
