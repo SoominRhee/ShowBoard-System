@@ -1,5 +1,3 @@
-﻿$(document).ready(function () {
-    $(".menu-bar").click(function () {
-        $(this).next().slideToggle();
-    })
-})
+﻿$(document).on("click", ".menu-bar", function () {
+    $(this).next().slideToggle();
+});
