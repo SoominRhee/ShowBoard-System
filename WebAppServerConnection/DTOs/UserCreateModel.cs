@@ -13,7 +13,6 @@ namespace WebAppServerConnection.DTOs
         public string LastName { get; set; }
         public string LogonName { get; set; }
         public string Password { get; set; }
-        public bool CannotChangePassword { get; set; }
     }
 
 }

@@ -291,10 +291,6 @@ namespace WebAppServerConnection.Repositories
                     user.CommitChanges();
                     Debug.WriteLine("사용자 활성화 완료");
 
-                    if (model.CannotChangePassword)
-                    {
-                        Debug.WriteLine("비밀번호 변경 불가' 설정은 아직 구현되지 않음");
-                    }
                 }
             }
             catch (Exception ex)
