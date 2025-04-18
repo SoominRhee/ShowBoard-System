@@ -4,7 +4,7 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>조직도 트리뷰</title>
+    <title>AD 관리</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="/js/menu-loader.js"></script>
     <script src="/js/ad-manager.js"></script>

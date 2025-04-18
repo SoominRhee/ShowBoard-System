@@ -23,7 +23,7 @@
 
     <div class="container">
         <div class="tree-box">
-            <h3>AD 트리</h3>
+            <h3>AD 관리</h3>
             <ul class="tree-view">
                 
             </ul>
