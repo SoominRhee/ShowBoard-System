@@ -52,7 +52,7 @@
         </div>
     </div>
 
-    <div id="userCreateModal" class="modal" style="display:none;">
+    <div id="userCreateModal" class="modal">
         <div class="modal-content">
             <h3>Create New User</h3>
             <form id="userCreateForm">
@@ -67,13 +67,44 @@
                 <input type="text" name="logonName" required />
                 <label>Password</label>
                 <input type="password" name="password" required />
-                <label><input type="checkbox" name="cannotChangePassword" checked /> User cannot change password</label>
                 <div class="modal-actions">
                     <button type="submit">Create</button>
-                    <button type="button" onclick="$('#userCreateModal').hide()">Cancel</button>
+                    <button type="button" class="cancel-btn">Cancel</button>            
                 </div>
             </form>
         </div>
     </div>
+
+
+    <div id="groupCreateModal" class="modal">
+        <div class="modal-content">
+            <h3>Create New Group</h3>
+            <form id="groupCreateForm">
+                <input type="hidden" name="parentDn" id="groupParentDn" />
+                <label>Group Name</label>
+                <input type="text" name="groupName" required />
+                <div class="modal-actions">
+                    <button type="submit">Create</button>
+                    <button type="button" class="cancel-btn">Cancel</button>            
+
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="organizationalunitCreateModal" class="modal">
+    <div class="modal-content">
+        <h3>Create New Organizational Unit</h3>
+        <form id="organizationalunitCreateForm">
+            <input type="hidden" name="parentDn" id="organizationalunitParentDn" />
+            <label>OU Name</label>
+            <input type="text" name="ouName" required />
+            <div class="modal-actions">
+                <button type="submit">Create</button>
+                <button type="button" class="cancel-btn">Cancel</button>            
+            </div>
+        </form>
+    </div>
+</div>
 </body>
 </html>

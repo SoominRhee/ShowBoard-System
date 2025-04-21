@@ -75,7 +75,7 @@ namespace WebAppServerConnection.Controllers
         public ActionResult CheckAdmin()
         {
             bool isAdmin = Session["IsAdmin"] != null && (bool)Session["IsAdmin"];
-            return Json(new { isAdmin = isAdmin }, JsonRequestBehavior.AllowGet);
+            return Json(new { isAdmin = isAdmin }, JsonRequestBehavior.AllowGet);   
         }
     }
 }

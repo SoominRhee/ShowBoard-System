@@ -81,17 +81,19 @@ namespace WebAppServerConnection.Repositories
 
                 //DirectoryEntry root = new DirectoryEntry("LDAP://192.168.4.120/DC=test,DC=iqpad,DC=local", "TEST\\administrator", "smstar1221!"); // 수정 필요
 
-                DirectoryEntry root = new DirectoryEntry(ldapPath, fullUsername, password);
-
-                string name = root.Properties["name"].Value?.ToString();
-                string dn = root.Properties["distinguishedName"].Value?.ToString();
-
-                result.Add(new ADTreeNode
+                using (DirectoryEntry root = new DirectoryEntry(ldapPath, fullUsername, password))
                 {
-                    Name = name,
-                    DistinguishedName = dn,
-                    SchemaClassName = root.SchemaClassName
-                });
+
+                    string name = root.Properties["name"].Value?.ToString();
+                    string dn = root.Properties["distinguishedName"].Value?.ToString();
+
+                    result.Add(new ADTreeNode
+                    {
+                        Name = name,
+                        DistinguishedName = dn,
+                        SchemaClassName = root.SchemaClassName
+                    });
+                }
             }
             catch (Exception ex)
             {
@@ -115,23 +117,25 @@ namespace WebAppServerConnection.Repositories
 
                 //DirectoryEntry entry = new DirectoryEntry(path, "TEST\\administrator", "smstar1221!"); // 수정 필요
 
-                DirectoryEntry entry = new DirectoryEntry(path, fullUsername, password);
-
-                foreach(DirectoryEntry child in entry.Children)
+                using (DirectoryEntry entry = new DirectoryEntry(path, fullUsername, password))
                 {
-                    if (child.SchemaClassName == "organizationalUnit" ||
-                        child.SchemaClassName == "container" ||
-                        child.SchemaClassName == "domainDNS")
-                    {
-                        string name = child.Properties["name"].Value?.ToString();
-                        string childDn = child.Properties["distinguishedName"].Value?.ToString();
 
-                        result.Add(new ADTreeNode
+                    foreach (DirectoryEntry child in entry.Children)
+                    {
+                        if (child.SchemaClassName == "organizationalUnit" ||
+                            child.SchemaClassName == "container" ||
+                            child.SchemaClassName == "domainDNS")
                         {
-                            Name = name,
-                            DistinguishedName = childDn,
-                            SchemaClassName = child.SchemaClassName
-                        });
+                            string name = child.Properties["name"].Value?.ToString();
+                            string childDn = child.Properties["distinguishedName"].Value?.ToString();
+
+                            result.Add(new ADTreeNode
+                            {
+                                Name = name,
+                                DistinguishedName = childDn,
+                                SchemaClassName = child.SchemaClassName
+                            });
+                        }
                     }
                 }
             }
@@ -155,17 +159,19 @@ namespace WebAppServerConnection.Repositories
                 string path = $"LDAP://192.168.4.120/{dn}";
                 //DirectoryEntry entry = new DirectoryEntry(path, "TEST\\administrator", "smstar1221!"); // 수정 필요
 
-                DirectoryEntry entry = new DirectoryEntry(path, fullUsername, password);
-
-                foreach (DirectoryEntry child in entry.Children)
+                using (DirectoryEntry entry = new DirectoryEntry(path, fullUsername, password))
                 {
-                    result.Add(new ADEntry
+
+                    foreach (DirectoryEntry child in entry.Children)
                     {
-                        Name = child.Properties["name"].Value?.ToString(),
-                        Type = child.SchemaClassName,
-                        Description = child.Properties["description"].Value?.ToString() ?? "",
-                        DistinguishedName = child.Properties["distinguishedName"]?.Value?.ToString()
-                    });
+                        result.Add(new ADEntry
+                        {
+                            Name = child.Properties["name"].Value?.ToString(),
+                            Type = child.SchemaClassName,
+                            Description = child.Properties["description"].Value?.ToString() ?? "",
+                            DistinguishedName = child.Properties["distinguishedName"]?.Value?.ToString()
+                        });
+                    }
                 }
             }
             catch (Exception ex)
@@ -188,18 +194,20 @@ namespace WebAppServerConnection.Repositories
 
                 //DirectoryEntry entry = new DirectoryEntry(path, "TEST\\administrator", "smstar1221!"); // 수정 필요
 
-                DirectoryEntry entry = new DirectoryEntry(path, fullUsername, password);
+                using (DirectoryEntry entry = new DirectoryEntry(path, fullUsername, password))
+                {
 
 
-                detail.Name = entry.Properties["name"].Value?.ToString();
-                detail.Type = entry.SchemaClassName;
-                detail.Description = entry.Properties["description"].Value?.ToString();
-                detail.DisplayName = entry.Properties["displayName"].Value?.ToString();
-                detail.DistinguishedName = entry.Properties["distinguishedName"].Value?.ToString();
-                detail.Guid = entry.Guid.ToString();
-                detail.SamAccountName = entry.Properties["sAMAccountName"].Value?.ToString();
-                detail.Mail = entry.Properties["mail"].Value?.ToString();
-                detail.Created = entry.Properties["whenCreated"].Value?.ToString();
+                    detail.Name = entry.Properties["name"].Value?.ToString();
+                    detail.Type = entry.SchemaClassName;
+                    detail.Description = entry.Properties["description"].Value?.ToString();
+                    detail.DisplayName = entry.Properties["displayName"].Value?.ToString();
+                    detail.DistinguishedName = entry.Properties["distinguishedName"].Value?.ToString();
+                    detail.Guid = entry.Guid.ToString();
+                    detail.SamAccountName = entry.Properties["sAMAccountName"].Value?.ToString();
+                    detail.Mail = entry.Properties["mail"].Value?.ToString();
+                    detail.Created = entry.Properties["whenCreated"].Value?.ToString();
+                }
             }
             catch (Exception ex)
             {
@@ -249,11 +257,11 @@ namespace WebAppServerConnection.Repositories
 
         public static void CreateUser(UserCreateModel model, string username, string password)
         {
-            string fullUsername = "TEST\\" + username;
-            string path = $"LDAP://192.168.4.120/{model.ParentDn}";
-
             try
             {
+                string fullUsername = "TEST\\" + username;
+                string path = $"LDAP://192.168.4.120/{model.ParentDn}";
+
                 using (var parent = new DirectoryEntry(path, fullUsername, password))
                 {
                     Debug.WriteLine("Repository: CreateUser 진입");
@@ -264,6 +272,7 @@ namespace WebAppServerConnection.Repositories
                     var user = parent.Children.Add("CN=" + fullName, "user");
 
                     string lastName = string.IsNullOrWhiteSpace(model.LastName) ? "NoLastName" : model.LastName;
+                    //string lasatName = model.LastName ?? "NoLastName";
 
                     string baseSam = model.LogonName;
                     string randomSuffix = DateTime.Now.Ticks.ToString().Substring(10);
@@ -302,7 +311,63 @@ namespace WebAppServerConnection.Repositories
             }
         }
 
+        public static void CreateGroup(GroupCreateModel model, string username, string password)
+        {
+            try
+            {
+                string fullUsername = "TEST\\" + username;
+                string path = $"LDAP://192.168.4.120/{model.ParentDn}";
 
+                using (var parent = new DirectoryEntry(path, fullUsername, password))
+                {
+                    Debug.WriteLine("Repository: CreateFroup 진입");
+
+                    string cn = model.GroupName;
+                    var group = parent.Children.Add("CN=" + cn, "group");
+                    
+                    int groupType = 0x00000002 | unchecked((int)0x80000000);
+                    group.Properties["groupType"].Value = groupType;
+                    group.Properties["sAMAccountName"].Value = cn;
+                    group.CommitChanges();
+
+                    Debug.WriteLine("그룹 생성 완료");
+                }
+            }
+            catch(Exception ex)
+            {
+                Debug.WriteLine("예외 발생: " + ex.Message);
+            }
+        }
+
+
+        public static void CreateOU(OUCreateModel model, string username, string password)
+        {
+            try
+            {
+                string fullUsername = "TEST\\" + username;
+                string path = $"LDAP://192.168.4.120/{model.ParentDn}";
+                Debug.WriteLine("OU 생성 경로: " + path);
+
+                using (var parent = new DirectoryEntry(path, fullUsername, password))
+                {
+                    Debug.WriteLine("Repository: CreateOU 진입");
+
+                    string ouName = model.OUName;
+                    Debug.WriteLine("ouName: " + ouName);
+
+                    var ou = parent.Children.Add("OU=" + ouName, "organizationalUnit");
+
+                    ou.Properties["ou"].Value = ouName;
+
+                    ou.CommitChanges();
+                    Debug.WriteLine("OU 생성 완료");
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("예외 발생: " + ex.Message);
+            }
+        }
 
 
     }

@@ -9,7 +9,7 @@ namespace WebAppServerConnection.DTOs
     {
         public int UserID { get; set; }
         public string Username { get; set; }
-        public String ReservationDate { get; set; }
+        public string ReservationDate { get; set; }
     }
 }
 

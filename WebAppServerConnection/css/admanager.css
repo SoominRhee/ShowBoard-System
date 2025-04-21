@@ -129,6 +129,7 @@ th {
 
 .context-menu-item:hover {
     background-color: #c0c0c0;
+    cursor: pointer;
 }
 
 .modal {

@@ -106,6 +106,41 @@ namespace WebAppServerConnection.Controllers
         }
 
 
+        public ActionResult CreateGroup(GroupCreateModel model)
+        {
+            try
+            {
+                Debug.WriteLine("Controller: CreateGroup 진입");
+
+                string username = Session["Username"].ToString();
+                string password = Session["Password"].ToString();
+
+                ActiveDirectoryRepository.CreateGroup(model, username, password);
+                return Json(new { success = true, message = "그룹 생성 완료" }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult CreateOU(OUCreateModel model)
+        {
+            try
+            {
+                Debug.WriteLine("Controller: CreateOU 진입");
+
+                string username = Session["Username"].ToString();
+                string password = Session["Password"].ToString();
+
+                ActiveDirectoryRepository.CreateOU(model, username, password);
+                return Json(new { success = true, message = "OU 생성 완료" }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
 
     }
 }

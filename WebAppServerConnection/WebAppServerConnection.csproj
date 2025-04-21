@@ -119,6 +119,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DTOs\GroupCreateModel.cs" />
+    <Compile Include="DTOs\OUCreateModel.cs" />
     <Compile Include="DTOs\UserCreateModel.cs" />
     <Compile Include="Views\ADManager_create.aspx.cs">
       <DependentUpon>ADManager_create.aspx</DependentUpon>

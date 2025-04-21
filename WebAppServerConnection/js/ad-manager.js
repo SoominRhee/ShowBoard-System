@@ -154,7 +154,45 @@
         });
     });
 
+    $("#groupCreateForm").on("submit", function (e) {
+        e.preventDefault();
 
+        const data = $(this).serialize();
+
+        $.ajax({
+            url: "/AD/CreateGroup",
+            type: "POST",
+            data: data,
+            success: function (res) {
+                alert(res.message);
+                $("#groupCreateModal").hide();
+                // TODO: 트리뷰 갱신
+            },
+            error: function () {
+                alert("Group 생성 실패");
+            }
+        });
+    });
+
+    $("#organizationalunitCreateForm").on("submit", function (e) {
+        e.preventDefault();
+
+        const data = $(this).serialize();
+
+        $.ajax({
+            url: "/AD/CreateOU",
+            type: "POST",
+            data: data,
+            success: function (res) {
+                alert(res.message);
+                $("#organizationalunitCreateModal").hide();
+                // TODO: 트리뷰 갱신
+            },
+            error: function () {
+                alert("OU 생성 실패");
+            }
+        });
+    });
 });
 
 
@@ -257,16 +295,18 @@ $(document).on("click", ".context-menu-item", function () {
     const dn = $(this).data("dn");
     const cls = $(this).data("class");
 
-    if (cls === "user") {
-        openCreateUserForm(dn);
+    if (cls === "user" || cls === "group" || cls === "organizationalunit") {
+        openCreationModal(cls, dn);
     }
     // group, ou는 이후에 연결
 });
 
 
-function openCreateUserForm(dn) {
-    $("#userParentDn").val(dn);
-    $("#userCreateModal").show();
+function openCreationModal(type, dn) {
+    $(`#${type}ParentDn`).val(dn);
+    $(`#${type}CreateModal`).show();
 }
 
-
+$(document).on("click", ".cancel-btn", function () {
+    $(this).closest(".modal").hide();
+});
