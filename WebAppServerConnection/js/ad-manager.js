@@ -133,7 +133,7 @@
     });
 
 
-    //test
+
     $("#userCreateForm").on("submit", function (e) {
         e.preventDefault();
 
@@ -298,15 +298,16 @@ $(document).on("click", ".context-menu-item", function () {
     if (cls === "user" || cls === "group" || cls === "organizationalunit") {
         openCreationModal(cls, dn);
     }
-    // group, ou는 이후에 연결
 });
 
 
 function openCreationModal(type, dn) {
     $(`#${type}ParentDn`).val(dn);
-    $(`#${type}CreateModal`).show();
+    $(`#${type}CreateModal`).addClass("active");
+
+    $(".context-menu").remove();
 }
 
 $(document).on("click", ".cancel-btn", function () {
-    $(this).closest(".modal").hide();
+    $(this).closest(".modal").removeClass("active");
 });
