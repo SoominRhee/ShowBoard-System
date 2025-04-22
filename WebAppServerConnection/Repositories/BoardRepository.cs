@@ -28,7 +28,7 @@ namespace WebAppServerConnection.Repositories
 
                 using (SqlCommand cmd = new SqlCommand(query, connection)) {
 
-                    cmd.Parameters.AddWithValue("@Keyword", "%" + keyword + "%"); // ✅ 부분 검색
+                    cmd.Parameters.AddWithValue("@Keyword", "%" + keyword + "%"); // 부분 검색
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {
                         while (reader.Read())
@@ -69,7 +69,6 @@ namespace WebAppServerConnection.Repositories
             }
         }
 
-        // ✅ 3️⃣ 게시글 삭제 (DELETE)
         public bool DeleteBoardPost(int id)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))

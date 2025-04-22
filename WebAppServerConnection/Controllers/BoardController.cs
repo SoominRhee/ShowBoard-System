@@ -13,13 +13,6 @@ namespace WebAppServerConnection.Controllers
     {
         private BoardRepository boardRepository = new BoardRepository();
 
-        // GET: Performance
-        //public ActionResult GetBoardList()
-        //{
-        //    List<BoardPost> posts = boardRepository.GetBoardList();
-        //    return Json(posts, JsonRequestBehavior.AllowGet);
-        //}
-
         public ActionResult GetBoardList(string keyword = "")
         {
             List<BoardPost> boardPosts = boardRepository.GetBoardList(keyword);
@@ -30,18 +23,8 @@ namespace WebAppServerConnection.Controllers
         [HttpPost]
         public ActionResult DeleteBoardPost(int id)
         {
-
             bool success = boardRepository.DeleteBoardPost(id);
             return Json(new { success });
-
-            //var post = posts.FirstOrDefault(p => p.ID == id);
-            //if (post != null)
-            //{
-            //    posts.Remove(post);
-            //    return Json(new { success = true });
-            //}
-
-            //return Json(new { success = false });
         }
 
         [HttpPost]
@@ -50,16 +33,6 @@ namespace WebAppServerConnection.Controllers
             string organizer = Session["Username"]?.ToString() ?? "익명";
             bool success = boardRepository.CreateBoardPost(summary, details, date, organizer);
             return Json(new { success });
-
-            //BoardPost post = new BoardPost(posts.Count() + 1, DateTime.Now.ToString("yyyy년 MM월 dd일"), Session["Username"].ToString(), summary, details, date);
-            //Debug.WriteLine("새로운 게시물 아이디" + post.ID);
-            //if(post != null)
-            //{
-            //    posts.Add(post);
-            //    return Json(new { success = true });
-            //}
-
-            //return Json(new { success = false });
         }
     }
 }

@@ -59,7 +59,7 @@ $(document).on("click", ".reservation-btn", function (event) {
         type: "Post",
         data: { id: performanceId },
         //beforeSend: function () {
-        //    console.log("🚀 AJAX 요청 전송 준비 완료!");
+        //    console.log("AJAX 요청 전송 준비 완료!");
         //    alert("요청준비완료");
         //},
         success: function (response) {

@@ -17,8 +17,8 @@ namespace WebAppServerConnection.Controllers
             string username = Session["Username"].ToString();
             string password = Session["Password"].ToString();
 
-            //string username = "test"; // 수정 필요
-            //string password = "test"; // 수정 필요
+            //string username = "test";
+            //string password = "test";
 
             var result = ActiveDirectoryRepository.GetRootNodes(username, password);
             return Json(result, JsonRequestBehavior.AllowGet);
@@ -32,8 +32,8 @@ namespace WebAppServerConnection.Controllers
             string username = Session["Username"].ToString();
             string password = Session["Password"].ToString();
 
-            //string username = "test"; // 수정 필요
-            //string password = "test"; // 수정 필요
+            //string username = "test";
+            //string password = "test";
 
             Debug.WriteLine("GetChildNodes 요청 Dn: " + dn);
 
@@ -48,8 +48,8 @@ namespace WebAppServerConnection.Controllers
             string username = Session["Username"].ToString();
             string password = Session["Password"].ToString();
 
-            //string username = "test"; // 수정 필요
-            //string password = "test"; // 수정 필요
+            //string username = "test";
+            //string password = "test";
 
             Debug.WriteLine("GetChildFlat 요청 Dn: " + dn);
 
@@ -63,8 +63,8 @@ namespace WebAppServerConnection.Controllers
             string username = Session["Username"].ToString();
             string password = Session["Password"].ToString();
 
-            //string username = "test"; // 수정 필요
-            //string password = "test"; // 수정 필요
+            //string username = "test";
+            //string password = "test";
 
             var result = ActiveDirectoryRepository.GetDetails(dn, username, password);
             return Json(result, JsonRequestBehavior.AllowGet);

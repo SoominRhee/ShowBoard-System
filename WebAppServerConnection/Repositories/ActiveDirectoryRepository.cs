@@ -79,7 +79,7 @@ namespace WebAppServerConnection.Repositories
             {
                 string fullUsername = "TEST\\" + username;
 
-                //DirectoryEntry root = new DirectoryEntry("LDAP://192.168.4.120/DC=test,DC=iqpad,DC=local", "TEST\\administrator", "smstar1221!"); // 수정 필요
+                //DirectoryEntry root = new DirectoryEntry("LDAP://192.168.4.120/DC=test,DC=iqpad,DC=local", "TEST\\administrator", "smstar1221!");
 
                 using (DirectoryEntry root = new DirectoryEntry(ldapPath, fullUsername, password))
                 {
@@ -115,7 +115,7 @@ namespace WebAppServerConnection.Repositories
 
                 string path = $"LDAP://192.168.4.120/{dn}";
 
-                //DirectoryEntry entry = new DirectoryEntry(path, "TEST\\administrator", "smstar1221!"); // 수정 필요
+                //DirectoryEntry entry = new DirectoryEntry(path, "TEST\\administrator", "smstar1221!");
 
                 using (DirectoryEntry entry = new DirectoryEntry(path, fullUsername, password))
                 {
@@ -157,7 +157,7 @@ namespace WebAppServerConnection.Repositories
                 string fullUsername = "TEST\\" + username;
 
                 string path = $"LDAP://192.168.4.120/{dn}";
-                //DirectoryEntry entry = new DirectoryEntry(path, "TEST\\administrator", "smstar1221!"); // 수정 필요
+                //DirectoryEntry entry = new DirectoryEntry(path, "TEST\\administrator", "smstar1221!");
 
                 using (DirectoryEntry entry = new DirectoryEntry(path, fullUsername, password))
                 {
@@ -192,7 +192,7 @@ namespace WebAppServerConnection.Repositories
                 string fullUsername = "TEST\\" + username;
                 string path = $"LDAP://192.168.4.120/{dn}";
 
-                //DirectoryEntry entry = new DirectoryEntry(path, "TEST\\administrator", "smstar1221!"); // 수정 필요
+                //DirectoryEntry entry = new DirectoryEntry(path, "TEST\\administrator", "smstar1221!");
 
                 using (DirectoryEntry entry = new DirectoryEntry(path, fullUsername, password))
                 {

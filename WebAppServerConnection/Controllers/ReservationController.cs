@@ -30,10 +30,6 @@ namespace WebAppServerConnection.Controllers
 
         public ActionResult GetReservationList(string keyword = "")
         {
-            //String username = Session["Username"].ToString();
-            //var user = AccountController.users.FirstOrDefault(u => u.Username == username);
-
-            //return Json(user.ReservationList, JsonRequestBehavior.AllowGet);
             if (Session["Username"] == null)
             {
                 return Json(new { success = false, message = "로그인이 필요합니다." }, JsonRequestBehavior.AllowGet);
@@ -42,11 +38,7 @@ namespace WebAppServerConnection.Controllers
             string username = Session["Username"].ToString();
             int? userId = Convert.ToInt32(Session["UserId"]);
             Debug.WriteLine("리스트 가져올 기준 아이디 확인: ", userId);
-            //if (userId.HasValue)
-            //{
-            //    return Json(new { success = false, message = "사용자 정보를 찾을 수 없습니다." }, JsonRequestBehavior.AllowGet);
-            //}
-
+            
             List<Performance> reservations = reservationRepository.GetUserReservations(userId.Value, keyword);
             
 
