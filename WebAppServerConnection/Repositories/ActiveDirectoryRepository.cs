@@ -266,19 +266,19 @@ namespace WebAppServerConnection.Repositories
                 {
                     Debug.WriteLine("Repository: CreateUser 진입");
 
-                    string fullName = $"{model.FirstName} {model.LastName} {DateTime.Now.Ticks}".Trim();
-                    fullName = Regex.Replace(fullName, @"[,+""<>;=\\#]", "");
+                    string fullName = $"{model.FirstName} {model.LastName}";
+                    //fullName = Regex.Replace(fullName, @"[,+""<>;=\\#]", "");
 
                     var user = parent.Children.Add("CN=" + fullName, "user");
 
                     string lastName = string.IsNullOrWhiteSpace(model.LastName) ? "NoLastName" : model.LastName;
                     //string lasatName = model.LastName ?? "NoLastName";
 
-                    string baseSam = model.LogonName;
-                    string randomSuffix = DateTime.Now.Ticks.ToString().Substring(10);
-                    string sam = (baseSam + randomSuffix).Length > 20
-                        ? (baseSam + randomSuffix).Substring(0, 20)
-                        : baseSam + randomSuffix;
+                    string sam = model.LogonName;
+                    //string randomSuffix = DateTime.Now.Ticks.ToString().Substring(10);
+                    //string sam = (baseSam + randomSuffix).Length > 20
+                    //    ? (baseSam + randomSuffix).Substring(0, 20)
+                    //    : baseSam + randomSuffix;
 
                     string upn = model.LogonName + "@test.iqpad.local";
 
