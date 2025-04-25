@@ -46,17 +46,41 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Identity.Client, Version=4.71.1.0, Culture=neutral, PublicKeyToken=0a613f4dd989e8ae, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Identity.Client.4.71.1\lib\net472\Microsoft.Identity.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.Abstractions, Version=6.35.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IdentityModel.Abstractions.6.35.0\lib\net472\Microsoft.IdentityModel.Abstractions.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Diagnostics.DiagnosticSource, Version=6.0.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Diagnostics.DiagnosticSource.6.0.1\lib\net461\System.Diagnostics.DiagnosticSource.dll</HintPath>
+    </Reference>
     <Reference Include="System.DirectoryServices" />
     <Reference Include="System.DirectoryServices.AccountManagement" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.IdentityModel" />
+    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.0.0\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
@@ -119,9 +143,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\EntraIDController.cs" />
     <Compile Include="DTOs\GroupCreateModel.cs" />
     <Compile Include="DTOs\OUCreateModel.cs" />
     <Compile Include="DTOs\UserCreateModel.cs" />
+    <Compile Include="Models\EntraIDUser.cs" />
+    <Compile Include="Repositories\EntraIDRepository.cs" />
     <Compile Include="Views\ADManager_create.aspx.cs">
       <DependentUpon>ADManager_create.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -164,6 +191,13 @@
     </Compile>
     <Compile Include="Views\BoardList.aspx.designer.cs">
       <DependentUpon>BoardList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EntraIDManager.aspx.cs">
+      <DependentUpon>EntraIDManager.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Views\EntraIDManager.aspx.designer.cs">
+      <DependentUpon>EntraIDManager.aspx</DependentUpon>
     </Compile>
     <Compile Include="Views\Login.aspx.cs">
       <DependentUpon>Login.aspx</DependentUpon>
@@ -253,12 +287,14 @@
     <Content Include="css\admanager.css" />
     <Content Include="css\login.css" />
     <Content Include="js\ad-manager.js" />
+    <Content Include="js\entraid-manager.js" />
     <Content Include="js\menu-loader.js" />
     <Content Include="Views\ADManager_create.aspx" />
     <Content Include="Views\ADManager.aspx" />
     <Content Include="Views\AdminMenu.aspx" />
     <Content Include="Views\BoardCreate.aspx" />
     <Content Include="Views\BoardList.aspx" />
+    <Content Include="Views\EntraIDManager.aspx" />
     <Content Include="Views\Login.aspx" />
     <Content Include="Views\Login2.aspx" />
     <Content Include="Views\LoginFail.aspx" />
@@ -337,6 +373,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\EntraGraph\" />
     <Folder Include="Views_\AD\" />
     <Folder Include="Views_\Reservation\" />
   </ItemGroup>
