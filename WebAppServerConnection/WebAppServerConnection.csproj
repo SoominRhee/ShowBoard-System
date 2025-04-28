@@ -285,6 +285,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="css\admanager.css" />
+    <Content Include="css\entra-id.css" />
     <Content Include="css\login.css" />
     <Content Include="js\ad-manager.js" />
     <Content Include="js\entraid-manager.js" />

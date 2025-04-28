@@ -1,37 +1,49 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="EntraIDManager.aspx.cs" Inherits="WebAppServerConnection.Views.EntraIDManager" %>
 
 <!DOCTYPE html>
-
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head runat="server">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>Entra ID 사용자 목록</title>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Microsoft Entra ID 관리</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="/js/entraid-manager.js"></script>
-    <style>
-        table { border-collapse: collapse; width: 80%; margin: 20px auto; }
-        th, td { border: 1px solid #ccc; padding: 8px 12px; text-align: left; }
-        th { background-color: #f5f5f5; }
-    </style>
+    <script src="/js/menu-loader.js"></script>
+    <script src="/js/entra-id.js"></script> 
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/entra-id.css" />
 </head>
+
 <body>
-    <form id="form1" runat="server">
-        <div style="text-align:center;">
-            <h2>Microsoft Entra ID 사용자 목록</h2>
-            <table id="userTable">
+    <div class="page-container">
+        <div id="menu-placeholder"></div>
+    </div>
+
+    <div class="container">
+        <div class="menu-box">
+            <h3>Microsoft Entra ID</h3>
+            <ul class="menu-list">
+                <li class="menu-item" id="menu-users" data-type="users">
+                    <span class="menu-label">Users</span>
+                </li>
+                <li class="menu-item" id="menu-groups" data-type="groups">
+                    <span class="menu-label">Groups</span>
+                </li>
+                <li class="menu-item" id="menu-applications" data-type="applications">
+                    <span class="menu-label">Applications</span>
+                </li>
+            </ul>
+        </div>
+
+        <div class="info">
+            <h3>객체 정보</h3>
+            <table id="objectTable">
                 <thead>
-                    <tr>
-                        <th>Display Name</th>
-                        <th>Email</th>
-                        <th>User Principal Name</th>
-                    </tr>
+                  
                 </thead>
-                <tbody></tbody>
+                <tbody class="main-table-body">
+
+                </tbody>
             </table>
         </div>
-    </form>
-
-    
+    </div>
 </body>
 </html>
-    

@@ -1,0 +1,80 @@
+﻿.page-container {
+    margin-bottom: 20px;
+}
+
+.container {
+    max-width: 1200px;
+    display: flex;
+    gap: 30px;
+    width: 100%;
+    justify-content: center;
+    margin: 0 auto;
+}
+
+.menu-box {
+    background-color: #8EB4E3;
+    color: #ffffff;
+    min-width: 200px;
+    min-height: 400px;
+    padding: 20px;
+    border-radius: 8px;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+.menu-list {
+    list-style: none;
+    padding-left: 0;
+    margin-top: 15px;
+}
+
+.menu-item {
+    margin: 10px 0;
+    cursor: pointer;
+}
+
+.menu-label {
+    display: inline-block;
+    white-space: nowrap;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.menu-item:hover .menu-label {
+    text-decoration: underline;
+    color: #E0EFFF;
+}
+
+.info {
+    flex-grow: 1;
+    background: #ffffff;
+    padding: 20px;
+    border: 2px solid #cccccc;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+th {
+    background-color: #eeeeee;
+    font-weight: bold;
+    padding: 10px;
+    border: 1px solid #aaaaaa;
+    text-align: left;
+}
+
+td {
+    padding: 10px;
+    border: 1px solid #aaaaaa;
+    text-align: left;
+}
+
+.main-table-body tr:hover {
+    background-color: #f0f5fc;
+    cursor: pointer;
+}
