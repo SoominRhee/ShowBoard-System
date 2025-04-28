@@ -16,7 +16,7 @@ namespace WebAppServerConnection.Repositories
     {
         private readonly string tenantId = "***REMOVED***";
         private readonly string clientId = "***REMOVED***";
-        private readonly string clientSecret = "***REMOVED***";
+        private readonly string clientSecret = "";
 
         public async Task<List<EntraIDUser>> GetUserList()
         {
