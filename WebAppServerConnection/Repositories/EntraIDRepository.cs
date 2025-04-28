@@ -14,9 +14,9 @@ namespace WebAppServerConnection.Repositories
 {
     public class EntraIDRepository
     {
-        private readonly string tenantId = "***REMOVED***";
-        private readonly string clientId = "***REMOVED***";
-        private readonly string clientSecret = "***REMOVED***";
+        private readonly string tenantId = "86405abf-69f9-4524-b4b7-c1682a278764";
+        private readonly string clientId = "34ec262b-2de8-4559-9824-a4e88982fc65";
+        private readonly string clientSecret = "";
 
         public async Task<List<EntraIDUser>> GetUserList()
         {
