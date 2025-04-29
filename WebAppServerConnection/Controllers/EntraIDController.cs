@@ -18,15 +18,43 @@ namespace WebAppServerConnection.Controllers
 {
     public class EntraIDController : Controller
     {
+        private EntraIDRepository repo = new EntraIDRepository();
+
         [HttpGet]
         public async Task<ActionResult> GetUserList()
         {
             Debug.WriteLine("EntraIDController: GetUserList 진입");
 
-            var repo = new EntraIDRepository();
             var users = await repo.GetUserList();
 
             return Json(users, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> GetGroupList()
+        {
+            Debug.WriteLine("EntraIDController: GetGroupList 진입");
+
+            var groups = await repo.GetGroupList();
+
+            return Json(groups, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> GetApplicationList()
+        {
+            Debug.WriteLine("EntraIDController: GetApplicationList 진입");
+
+            var groups = await repo.GetApplicationList();
+
+            return Json(groups, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> GetGroupMembers(string groupId)
+        {
+            var members = await repo.GetGroupMembers(groupId);
+            return Json(members, JsonRequestBehavior.AllowGet);
         }
     }
 }

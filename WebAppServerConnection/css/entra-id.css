@@ -11,7 +11,7 @@
     margin: 0 auto;
 }
 
-.menu-box {
+.entra-menu-box {
     background-color: #8EB4E3;
     color: #ffffff;
     min-width: 200px;
@@ -22,26 +22,31 @@
     white-space: nowrap;
 }
 
-.menu-list {
+.entra-menu-list {
     list-style: none;
     padding-left: 0;
     margin-top: 15px;
 }
 
-.menu-item {
+.entra-menu-item {
     margin: 10px 0;
     cursor: pointer;
+    padding: 8px 12px;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    transition: all 0.2s;
 }
 
-.menu-label {
+.entra-menu-label {
     display: inline-block;
     white-space: nowrap;
     font-size: 15px;
     font-weight: bold;
+    text-decoration: underline;
+    color: #ffffff;
 }
 
-.menu-item:hover .menu-label {
-    text-decoration: underline;
+.entra-menu-item:hover .entra-menu-label {
     color: #E0EFFF;
 }
 
@@ -77,4 +82,45 @@ td {
 .main-table-body tr:hover {
     background-color: #f0f5fc;
     cursor: pointer;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal.active {
+    display: flex;
+}
+
+.modal-content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    width: 1000px;
+    max-height: 80%;
+    overflow-y: auto;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    position: relative;
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close-btn:hover {
+    color: red;
 }

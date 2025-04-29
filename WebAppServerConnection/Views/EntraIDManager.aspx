@@ -18,29 +18,47 @@
     </div>
 
     <div class="container">
-        <div class="menu-box">
+        <div class="entra-menu-box">
             <h3>Microsoft Entra ID</h3>
-            <ul class="menu-list">
-                <li class="menu-item" id="menu-users" data-type="users">
-                    <span class="menu-label">Users</span>
+            <ul class="entra-menu-list">
+                <li class="entra-menu-item" id="menu-users" data-type="users">
+                    <span class="entra-menu-label">Users</span>
                 </li>
-                <li class="menu-item" id="menu-groups" data-type="groups">
-                    <span class="menu-label">Groups</span>
+                <li class="entra-menu-item" id="menu-groups" data-type="groups">
+                    <span class="entra-menu-label">Groups</span>
                 </li>
-                <li class="menu-item" id="menu-applications" data-type="applications">
-                    <span class="menu-label">Applications</span>
+                <li class="entra-menu-item" id="menu-applications" data-type="applications">
+                    <span class="entra-menu-label">Applications</span>
                 </li>
             </ul>
         </div>
 
         <div class="info">
-            <h3>객체 정보</h3>
+            <h3></h3>
             <table id="objectTable">
                 <thead>
                   
                 </thead>
                 <tbody class="main-table-body">
 
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="groupMembersModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h3>Group Members</h3>
+            <table id="membersTable">
+                <thead>
+                    <tr>
+                        <th>Display Name</th>
+                        <th>User Principal Name</th>
+                        <th>ID</th>
+                    </tr>
+                </thead>
+                <tbody>
                 </tbody>
             </table>
         </div>

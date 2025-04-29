@@ -14,14 +14,107 @@ namespace WebAppServerConnection.Repositories
 {
     public class EntraIDRepository
     {
+        private static readonly HttpClient _httpClient = new HttpClient();
+
         private readonly string tenantId = "";
         private readonly string clientId = "";
         private readonly string clientSecret = "";
 
         public async Task<List<EntraIDUser>> GetUserList()
         {
-            Debug.WriteLine("Repository: GetUsersList 진입");
+            Debug.WriteLine("Repository: GetUserList 진입");
 
+            var scopes = new[] { "https://graph.microsoft.com/.default" };
+
+            try
+            {
+                var app = ConfidentialClientApplicationBuilder
+                    .Create(clientId)
+                    .WithClientSecret(clientSecret)
+                    .WithAuthority($"https://login.microsoftonline.com/{tenantId}")
+                    .Build();
+
+                var result = await app.AcquireTokenForClient(scopes).ExecuteAsync();
+                var token = result.AccessToken;
+
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+                var response = await _httpClient.GetStringAsync("https://graph.microsoft.com/v1.0/users");
+                var userList = JsonConvert.DeserializeObject<EntraIDUserList>(response);
+
+                return userList?.value ?? new List<EntraIDUser>();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("GetUserList 오류 발생: " + ex.Message);
+                return new List<EntraIDUser>();
+            }
+        }
+
+        public async Task<List<EntraIDGroup>> GetGroupList()
+        {
+            Debug.WriteLine("Repository: GetGroupList 진입");
+
+            var scopes = new[] { "https://graph.microsoft.com/.default" };
+
+            try
+            {
+                var app = ConfidentialClientApplicationBuilder
+                    .Create(clientId)
+                    .WithClientSecret(clientSecret)
+                    .WithAuthority($"https://login.microsoftonline.com/{tenantId}")
+                    .Build();
+
+                var result = await app.AcquireTokenForClient(scopes).ExecuteAsync();
+                var token = result.AccessToken;
+
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+                var response = await _httpClient.GetStringAsync("https://graph.microsoft.com/v1.0/groups");
+                var groupList = JsonConvert.DeserializeObject<EntraIDGroupList>(response);
+
+                return groupList?.value ?? new List<EntraIDGroup>();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("GetGroupList 오류 발생: " + ex.Message);
+                return new List<EntraIDGroup>();
+            }
+        }
+
+        public async Task<List<EntraIDApplication>> GetApplicationList()
+        {
+            Debug.WriteLine("Repository: GetApplicationList 진입");
+
+            var scopes = new[] { "https://graph.microsoft.com/.default" };
+
+            try
+            {
+                var app = ConfidentialClientApplicationBuilder
+                    .Create(clientId)
+                    .WithClientSecret(clientSecret)
+                    .WithAuthority($"https://login.microsoftonline.com/{tenantId}")
+                    .Build();
+
+                var result = await app.AcquireTokenForClient(scopes).ExecuteAsync();
+                var token = result.AccessToken;
+
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+                var response = await _httpClient.GetStringAsync("https://graph.microsoft.com/v1.0/applications");
+                var applicationList = JsonConvert.DeserializeObject<EntraIDApplicationList>(response);
+
+                return applicationList?.value ?? new List<EntraIDApplication>();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("GetGroupList 오류 발생: " + ex.Message);
+                return new List<EntraIDApplication>();
+            }
+        }
+
+        public async Task<List<EntraIDUser>> GetGroupMembers(string groupId)
+        {
             var scopes = new[] { "https://graph.microsoft.com/.default" };
 
             var app = ConfidentialClientApplicationBuilder
@@ -37,10 +130,11 @@ namespace WebAppServerConnection.Repositories
             {
                 http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-                var response = await http.GetStringAsync("https://graph.microsoft.com/v1.0/users");
-                var userList = JsonConvert.DeserializeObject<EntraIDUserList>(response);
+                var response = await http.GetStringAsync($"https://graph.microsoft.com/v1.0/groups/{groupId}/members");
 
-                return userList?.value ?? new List<EntraIDUser>();
+                var memberList = JsonConvert.DeserializeObject<EntraIDUserList>(response);
+
+                return memberList?.value ?? new List<EntraIDUser>();
             }
         }
     }
