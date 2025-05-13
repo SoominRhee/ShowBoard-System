@@ -56,5 +56,13 @@ namespace WebAppServerConnection.Controllers
             var members = await repo.GetGroupMembers(groupId);
             return Json(members, JsonRequestBehavior.AllowGet);
         }
+
+        [HttpPost]
+        public async Task<ActionResult> CreateUser(EntraIDCreateUser request)
+        {
+            var success = await repo.CreateUserAsync(request);
+            return Json(new { success });
+        }
+
     }
 }

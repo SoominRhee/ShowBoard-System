@@ -160,3 +160,82 @@
     });
 
 });
+
+// ------------------- 우클릭 메뉴 표시 -------------------
+$(document).on("contextmenu", "#menu-users", function (e) {
+    e.preventDefault();
+    $(".context-menu").remove();
+
+    const $menu = $("<ul>", {
+        class: "context-menu",
+        css: {
+            position: "absolute",
+            top: e.pageY - 10,
+            left: e.pageX,
+            background: "#fff",
+            border: "1px solid #ccc",
+            padding: "5px",
+            "z-index": 1000,
+            "list-style": "none"
+        }
+    });
+
+    const $item = $("<li>", {
+        class: "context-menu-item",
+        text: "Create User"
+    });
+
+    $menu.append($item);
+    $("body").append($menu);
+});
+
+// ------------------- 클릭 시 모달 표시 -------------------
+$(document).on("click", ".context-menu-item", function () {
+    $(".context-menu").remove();
+    $("#userCreateModal").addClass("active");
+});
+
+// ------------------- 바깥 클릭 시 메뉴 제거 -------------------
+$(document).on("mousedown", function (e) {
+    if (!$(e.target).closest(".context-menu, #menu-users").length) {
+        $(".context-menu").remove();
+    }
+});
+
+// ------------------- 사용자 생성 요청 처리 -------------------
+$(document).on("click", "#createUserBtn", function () {
+    const displayName = $("#entraDisplayName").val().trim();
+    const userPrincipalName = $("#entraUserLogon").val().trim();
+    const password = $("#entraPassword").val().trim();
+
+    if (!displayName || !userPrincipalName || !password) {
+        alert("모든 항목을 입력하세요.");
+        return;
+    }
+
+    const fullUpn = userPrincipalName + "@soominrhee01gmail.onmicrosoft.com";
+
+    $.ajax({
+        url: "../EntraID/CreateUser",
+        type: "POST",
+        contentType: "application/json",
+        data: JSON.stringify({
+            displayName: displayName,
+            userPrincipalName: fullUpn,
+            password: password
+        }),
+        success: function () {
+            alert("사용자 생성 완료");
+            $("#userCreateModal").removeClass("active");
+            $("#menu-users").click();  // 사용자 목록 새로고침
+        },
+        error: function () {
+            alert("사용자 생성 실패");
+        }
+    });
+});
+
+// ------------------- 모달 닫기 -------------------
+$(document).on("click", ".cancel-btn", function () {
+    $(this).closest(".modal").removeClass("active");
+});

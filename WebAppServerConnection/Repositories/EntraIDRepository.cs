@@ -9,6 +9,7 @@ using System.Net.Http.Headers;
 using Newtonsoft.Json;
 using WebAppServerConnection.Models;
 using System.Diagnostics;
+using System.Text;
 
 namespace WebAppServerConnection.Repositories
 {
@@ -19,6 +20,7 @@ namespace WebAppServerConnection.Repositories
         private readonly string tenantId = "";
         private readonly string clientId = "";
         private readonly string clientSecret = "";
+
 
         public async Task<List<EntraIDUser>> GetUserList()
         {
@@ -136,6 +138,55 @@ namespace WebAppServerConnection.Repositories
 
                 return memberList?.value ?? new List<EntraIDUser>();
             }
+        }
+
+        public async Task<bool> CreateUserAsync(EntraIDCreateUser request)
+        {
+            var scopes = new[] { "https://graph.microsoft.com/.default" };
+
+            var app = ConfidentialClientApplicationBuilder
+                .Create(clientId)
+                .WithClientSecret(clientSecret)
+                .WithAuthority($"https://login.microsoftonline.com/{tenantId}")
+                .Build();
+
+            var result = await app.AcquireTokenForClient(scopes).ExecuteAsync();
+            var token = result.AccessToken;
+
+            string fixedDomain = "@soominrhee01gmail.onmicrosoft.com";
+
+            string upn = request.UserPrincipalName.Contains("@")
+                ? request.UserPrincipalName
+                : request.UserPrincipalName + fixedDomain;
+
+            string mailNickname = upn.Split('@')[0];
+
+            var userPayload = new
+            {
+                accountEnabled = true,
+                displayName = request.DisplayName,
+                mailNickname = mailNickname,
+                userPrincipalName = upn,
+                passwordProfile = new
+                {
+                    forceChangePasswordNextSignIn = false,
+                    password = request.Password
+                }
+            };
+
+            var json = JsonConvert.SerializeObject(userPayload);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            var response = await _httpClient.PostAsync("https://graph.microsoft.com/v1.0/users", content);
+
+            var resultContent = await response.Content.ReadAsStringAsync();
+
+            Debug.WriteLine("Graph API 응답 상태: " + response.StatusCode);
+            Debug.WriteLine("응답 내용: " + resultContent);
+
+            return response.IsSuccessStatusCode;
         }
     }
 }

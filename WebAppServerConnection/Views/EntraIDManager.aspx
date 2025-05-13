@@ -10,6 +10,7 @@
     <script src="/js/entra-id.js"></script> 
     <link rel="stylesheet" href="/css/style.css" />
     <link rel="stylesheet" href="/css/entra-id.css" />
+    <link rel="stylesheet" href="/css/admanager.css" />
 </head>
 
 <body>
@@ -61,6 +62,29 @@
                 <tbody>
                 </tbody>
             </table>
+        </div>
+    </div>
+
+    <div id="userCreateModal" class="modal">
+        <div class="modal-content">
+            <h3>Create New User</h3>
+
+            <label for="entraUserLogon">User Principal Name</label>
+            <div style="display: flex; align-items: center;">
+                <input type="text" id="entraUserLogon" style="flex: 1;" />
+                <span style="margin-left: 6px; font-size: 13px; white-space: nowrap;">@soominrhee01gmail.onmicrosoft.com</span>
+            </div>
+
+            <label for="entraDisplayName">Display Name</label>
+            <input type="text" id="entraDisplayName" />
+
+            <label for="entraPassword">Password</label>
+            <input type="password" id="entraPassword" />
+            
+            <div class="modal-actions">
+                <button id="createUserBtn">Create</button>
+                <button class="cancel-btn">Cancel</button>
+            </div>
         </div>
     </div>
 </body>
