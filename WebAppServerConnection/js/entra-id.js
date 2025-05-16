@@ -89,7 +89,7 @@
             success: function (applications) {
                 const tbody = $('#objectTable tbody');
                 tbody.empty();
-
+                        
                 applications.forEach(application => {
                     tbody.append(`
                         <tr>
@@ -161,7 +161,7 @@
 
 });
 
-// ------------------- 우클릭 메뉴 표시 -------------------
+// 우클릭 메뉴 표시
 $(document).on("contextmenu", "#menu-users", function (e) {
     e.preventDefault();
     $(".context-menu").remove();
@@ -181,7 +181,7 @@ $(document).on("contextmenu", "#menu-users", function (e) {
     });
 
     const $item = $("<li>", {
-        class: "context-menu-item",
+        class: "context-menu-item user-create",
         text: "Create User"
     });
 
@@ -189,20 +189,51 @@ $(document).on("contextmenu", "#menu-users", function (e) {
     $("body").append($menu);
 });
 
-// ------------------- 클릭 시 모달 표시 -------------------
-$(document).on("click", ".context-menu-item", function () {
+$(document).on("contextmenu", "#menu-groups", function (e) {
+    e.preventDefault();
+    $(".context-menu").remove();
+
+    const $menu = $("<ul>", {
+        class: "context-menu",
+        css: {
+            position: "absolute",
+            top: e.pageY - 10,
+            left: e.pageX,
+            background: "#fff",
+            border: "1px solid #ccc",
+            padding: "5px",
+            "z-index": 1000,
+            "list-style": "none"
+        }
+    });
+
+    const $item = $("<li>", {
+        class: "context-menu-item group-create",
+        text: "Create Group"
+    });
+
+    $menu.append($item);
+    $("body").append($menu);
+});
+
+// 클릭 시 모달 표시
+$(document).on("click", ".context-menu-item.user-create", function () {
     $(".context-menu").remove();
     $("#userCreateModal").addClass("active");
 });
+$(document).on("click", ".context-menu-item.group-create", function () {
+    $(".context-menu").remove();
+    $("#groupCreateModal").addClass("active");
+});
 
-// ------------------- 바깥 클릭 시 메뉴 제거 -------------------
+// 바깥 클릭 시 메뉴 제거
 $(document).on("mousedown", function (e) {
-    if (!$(e.target).closest(".context-menu, #menu-users").length) {
+    if (!$(e.target).closest(".context-menu, #menu-users, #menu-groups").length) {
         $(".context-menu").remove();
     }
 });
 
-// ------------------- 사용자 생성 요청 처리 -------------------
+// 생성 요청 처리
 $(document).on("click", "#createUserBtn", function () {
     const displayName = $("#entraDisplayName").val().trim();
     const userPrincipalName = $("#entraUserLogon").val().trim();
@@ -227,7 +258,7 @@ $(document).on("click", "#createUserBtn", function () {
         success: function () {
             alert("사용자 생성 완료");
             $("#userCreateModal").removeClass("active");
-            $("#menu-users").click();  // 사용자 목록 새로고침
+            $("#menu-users").click();
         },
         error: function () {
             alert("사용자 생성 실패");
@@ -235,7 +266,36 @@ $(document).on("click", "#createUserBtn", function () {
     });
 });
 
-// ------------------- 모달 닫기 -------------------
+$(document).on("click", "#createGroupBtn", function () {
+    const displayName = $("#entraGroupName").val().trim();
+    const description = $("#entraGroupDescription").val().trim();
+
+    if (!displayName || !description) {
+        alert("모든 항목을 입력하세요.");
+        return;
+    }
+
+    $.ajax({
+        url: "../EntraID/CreateGroup",
+        type: "POST",
+        contentType: "application/json",
+        data: JSON.stringify({
+            displayName: displayName,
+            description: description
+        }),
+        success: function () {
+            alert("그룹 생성 완료");
+            $("#groupCreateModal").removeClass("active");
+            $("#menu-groups").click();
+        },
+        error: function () {
+            alert("그룹 생성 실패");
+        }
+    });
+});
+
+
+// 모달 닫기
 $(document).on("click", ".cancel-btn", function () {
     $(this).closest(".modal").removeClass("active");
 });

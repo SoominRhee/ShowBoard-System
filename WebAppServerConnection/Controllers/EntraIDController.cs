@@ -64,5 +64,13 @@ namespace WebAppServerConnection.Controllers
             return Json(new { success });
         }
 
+        [HttpPost]
+        public async Task<ActionResult> CreateGroup(EntraIDCreateGroup request)
+        {
+            var success = await repo.CreateGroupAsync(request);
+            return Json(new { success });
+        }
+
+
     }
 }

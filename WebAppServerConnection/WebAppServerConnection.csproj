@@ -148,6 +148,7 @@
     <Compile Include="DTOs\OUCreateModel.cs" />
     <Compile Include="DTOs\UserCreateModel.cs" />
     <Compile Include="Models\EntraIDApplication.cs" />
+    <Compile Include="Models\EntraIDCreateGroup.cs" />
     <Compile Include="Models\EntraIDCreateUser.cs" />
     <Compile Include="Models\EntraIDGroup.cs" />
     <Compile Include="Models\EntraIDUser.cs" />

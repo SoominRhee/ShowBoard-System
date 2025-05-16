@@ -188,5 +188,45 @@ namespace WebAppServerConnection.Repositories
 
             return response.IsSuccessStatusCode;
         }
+
+        public async Task<bool> CreateGroupAsync(EntraIDCreateGroup request)
+        {
+            var scopes = new[] { "https://graph.microsoft.com/.default" };
+
+            var app = ConfidentialClientApplicationBuilder
+                .Create(clientId)
+                .WithClientSecret(clientSecret)
+                .WithAuthority($"https://login.microsoftonline.com/{tenantId}")
+                .Build();
+
+            var result = await app.AcquireTokenForClient(scopes).ExecuteAsync();
+            var token = result.AccessToken;
+
+            string mailNickname = request.DisplayName.Replace(" ", "").ToLower();
+
+            var groupPayload = new
+            {
+                displayName = request.DisplayName,
+                mailNickname = mailNickname,
+                description = request.Description,
+                mailEnabled = false,
+                securityEnabled = true
+            };
+
+            var json = JsonConvert.SerializeObject(groupPayload);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            var response = await _httpClient.PostAsync("https://graph.microsoft.com/v1.0/groups", content);
+            var resultContent = await response.Content.ReadAsStringAsync();
+
+            Debug.WriteLine("Graph API 응답 상태: " + response.StatusCode);
+            Debug.WriteLine("응답 내용: " + resultContent);
+
+            return response.IsSuccessStatusCode;
+        }
+
+
     }
 }

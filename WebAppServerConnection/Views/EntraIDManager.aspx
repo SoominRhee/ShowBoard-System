@@ -87,5 +87,23 @@
             </div>
         </div>
     </div>
+
+    <div id="groupCreateModal" class="modal">
+        <div class="modal-content">
+            <h3>Create New Group</h3>
+
+            <label for="entraGroupName">Group Name</label>
+            <input type="text" id="entraGroupName" />
+
+            <label for="entraGroupDescription">Description</label>
+            <input type="text" id="entraGroupDescription" />
+
+            <div class="modal-actions">
+                <button id="createGroupBtn">Create</button>
+                <button class="cancel-btn">Cancel</button>
+            </div>
+        </div>
+    </div>
+
 </body>
 </html>
