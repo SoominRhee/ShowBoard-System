@@ -125,3 +125,11 @@ td {
     color: red;
 }
 
+#groupMemberManageModal .modal-content, #groupMembersModal .modal-content {
+    width: 800px;
+    max-height: 500px;
+    overflow-y: auto;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}

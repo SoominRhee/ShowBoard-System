@@ -105,5 +105,27 @@
         </div>
     </div>
 
+    <input type="hidden" id="targetGroupId">
+    <input type="hidden" id="memberActionType">
+
+    <div id="groupMemberManageModal" class="modal">
+        <div class="modal-content">
+            <h3>Select Users</h3>
+            <table id="memberTable">
+                <thead>
+                    <tr>
+                        <th>Select</th><th>Name</th><th>Email</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+            <div class="modal-actions">
+                <button id="confirmMemberBtn">Confirm</button>
+                <button class="cancel-btn">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+
 </body>
 </html>

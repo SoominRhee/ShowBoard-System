@@ -145,6 +145,7 @@
   <ItemGroup>
     <Compile Include="Controllers\EntraIDController.cs" />
     <Compile Include="DTOs\GroupCreateModel.cs" />
+    <Compile Include="DTOs\GroupMembersRequest.cs" />
     <Compile Include="DTOs\OUCreateModel.cs" />
     <Compile Include="DTOs\UserCreateModel.cs" />
     <Compile Include="Models\EntraIDApplication.cs" />

@@ -299,3 +299,133 @@ $(document).on("click", "#createGroupBtn", function () {
 $(document).on("click", ".cancel-btn", function () {
     $(this).closest(".modal").removeClass("active");
 });
+
+
+// -------------------------------------------------------------------
+$(document).on("contextmenu", "#objectTable tbody tr", function (e) {
+    if ($(".info h3").text().trim() !== "그룹 목록") return;
+
+    e.preventDefault();
+    $(".context-menu").remove();
+
+    const groupId = $(this).data("group-id");
+    if (!groupId) {
+        alert("그룹 ID가 유효하지 않습니다. 1");
+        return;
+    }
+
+    const $menu = $("<ul>", {
+        class: "context-menu",
+        css: {
+            position: "absolute",
+            top: e.pageY - 10,
+            left: e.pageX,  
+            background: "#fff",
+            border: "1px solid #ccc",
+            padding: "5px",
+            "z-index": 1000,
+            "list-style": "none"
+        }
+    });
+
+    const viewItem = $("<li>", {
+        class: "context-menu-item view-members",
+        text: "View Members",
+        "data-group-id": groupId
+    });
+
+    const addItem = $("<li>", {
+        class: "context-menu-item add-member",
+        text: "Add Member",
+        "data-group-id": groupId
+    });
+
+    const removeItem = $("<li>", {
+        class: "context-menu-item remove-member",
+        text: "Remove Member",
+        "data-group-id": groupId
+    });
+
+    $menu.append(viewItem, addItem, removeItem);
+    $("body").append($menu);
+});
+
+$(document).on("click", ".context-menu-item.add-member, .context-menu-item.remove-member", function () {
+    $(".context-menu").remove();
+
+    const groupId = $(this).data("group-id");
+    const action = $(this).hasClass("add-member") ? "add" : "remove";
+    $("#memberActionType").val(action);
+    $("#targetGroupId").val(groupId);
+
+    $.get("../EntraID/GetUserList", function (users) {
+        const tbody = $("#memberTable tbody").empty();
+        users.forEach(user => {
+            tbody.append(`
+                <tr>
+                    <td><input type="checkbox" class="user-check" value="${user.id}"></td>
+                    <td>${user.displayName}</td>
+                    <td>${user.userPrincipalName}</td>
+                </tr>
+            `);
+        });
+        $("#groupMemberManageModal").addClass("active");
+    });
+});
+
+$(document).on("click", "#confirmMemberBtn", function () {
+    const userIds = $(".user-check:checked").map((_, el) => el.value).get();
+    const groupId = $("#targetGroupId").val();
+    if (!groupId) {
+        alert("그룹 ID가 유효하지 않습니다. 2");
+        return;
+    }
+    const action = $("#memberActionType").val();
+
+    if (userIds.length === 0) return alert("사용자를 선택하세요.");
+
+    $.ajax({
+        url: `../EntraID/${action === "add" ? "AddGroupMembers" : "RemoveGroupMembers"}`,
+        type: "POST",
+        contentType: "application/json",
+        data: JSON.stringify({ groupId, userIds }),
+        success: () => {
+            alert("작업 완료");
+            $("#groupMemberManageModal").removeClass("active");
+        },
+        error: () => alert("작업 실패")
+    });
+});
+
+$(document).on("click", ".context-menu-item.view-members", function () {
+    $(".context-menu").remove();
+
+    const groupId = $(this).data("group-id");
+    if (!groupId) {
+        alert("그룹 ID가 유효하지 않습니다. (view)");
+        return;
+    }
+
+    $.ajax({
+        url: "../EntraID/GetGroupMembers",
+        type: "GET",
+        data: { groupId },
+        success: function (members) {
+            const tbody = $("#membersTable tbody").empty();
+            members.forEach(member => {
+                tbody.append(`
+                    <tr>
+                        <td>${member.displayName || ''}</td>
+                        <td>${member.userPrincipalName || ''}</td>
+                        <td>${member.id || ''}</td>
+                    </tr>
+                `);
+            });
+
+            $("#groupMembersModal").addClass("active");
+        },
+        error: function () {
+            alert("그룹 멤버를 불러오는 데 실패했습니다.");
+        }
+    });
+});

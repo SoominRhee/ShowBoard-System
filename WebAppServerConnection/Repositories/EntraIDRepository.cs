@@ -21,23 +21,28 @@ namespace WebAppServerConnection.Repositories
         private readonly string clientId = "";
         private readonly string clientSecret = "";
 
+        private async Task<string> GetAccessTokenAsync()
+        {
+            var scopes = new[] { "https://graph.microsoft.com/.default" };
+
+            var app = ConfidentialClientApplicationBuilder
+                .Create(clientId)
+                .WithClientSecret(clientSecret)
+                .WithAuthority($"https://login.microsoftonline.com/{tenantId}")
+                .Build();
+
+            var result = await app.AcquireTokenForClient(scopes).ExecuteAsync();
+            return result.AccessToken;
+        }
+
 
         public async Task<List<EntraIDUser>> GetUserList()
         {
             Debug.WriteLine("Repository: GetUserList 진입");
 
-            var scopes = new[] { "https://graph.microsoft.com/.default" };
-
             try
             {
-                var app = ConfidentialClientApplicationBuilder
-                    .Create(clientId)
-                    .WithClientSecret(clientSecret)
-                    .WithAuthority($"https://login.microsoftonline.com/{tenantId}")
-                    .Build();
-
-                var result = await app.AcquireTokenForClient(scopes).ExecuteAsync();
-                var token = result.AccessToken;
+                var token = await GetAccessTokenAsync();
 
                 _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
@@ -57,18 +62,9 @@ namespace WebAppServerConnection.Repositories
         {
             Debug.WriteLine("Repository: GetGroupList 진입");
 
-            var scopes = new[] { "https://graph.microsoft.com/.default" };
-
             try
             {
-                var app = ConfidentialClientApplicationBuilder
-                    .Create(clientId)
-                    .WithClientSecret(clientSecret)
-                    .WithAuthority($"https://login.microsoftonline.com/{tenantId}")
-                    .Build();
-
-                var result = await app.AcquireTokenForClient(scopes).ExecuteAsync();
-                var token = result.AccessToken;
+                var token = await GetAccessTokenAsync();
 
                 _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
@@ -88,18 +84,9 @@ namespace WebAppServerConnection.Repositories
         {
             Debug.WriteLine("Repository: GetApplicationList 진입");
 
-            var scopes = new[] { "https://graph.microsoft.com/.default" };
-
             try
             {
-                var app = ConfidentialClientApplicationBuilder
-                    .Create(clientId)
-                    .WithClientSecret(clientSecret)
-                    .WithAuthority($"https://login.microsoftonline.com/{tenantId}")
-                    .Build();
-
-                var result = await app.AcquireTokenForClient(scopes).ExecuteAsync();
-                var token = result.AccessToken;
+                var token = await GetAccessTokenAsync();
 
                 _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
@@ -117,23 +104,13 @@ namespace WebAppServerConnection.Repositories
 
         public async Task<List<EntraIDUser>> GetGroupMembers(string groupId)
         {
-            var scopes = new[] { "https://graph.microsoft.com/.default" };
-
-            var app = ConfidentialClientApplicationBuilder
-                .Create(clientId)
-                .WithClientSecret(clientSecret)
-                .WithAuthority($"https://login.microsoftonline.com/{tenantId}")
-                .Build();
-
-            var result = await app.AcquireTokenForClient(scopes).ExecuteAsync();
-            var token = result.AccessToken;
+            var token = await GetAccessTokenAsync();
 
             using (var http = new HttpClient())
             {
                 http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-                var response = await http.GetStringAsync($"https://graph.microsoft.com/v1.0/groups/{groupId}/members");
-
+                var response = await _httpClient.GetStringAsync($"https://graph.microsoft.com/v1.0/groups/{groupId}/members");
                 var memberList = JsonConvert.DeserializeObject<EntraIDUserList>(response);
 
                 return memberList?.value ?? new List<EntraIDUser>();
@@ -142,16 +119,7 @@ namespace WebAppServerConnection.Repositories
 
         public async Task<bool> CreateUserAsync(EntraIDCreateUser request)
         {
-            var scopes = new[] { "https://graph.microsoft.com/.default" };
-
-            var app = ConfidentialClientApplicationBuilder
-                .Create(clientId)
-                .WithClientSecret(clientSecret)
-                .WithAuthority($"https://login.microsoftonline.com/{tenantId}")
-                .Build();
-
-            var result = await app.AcquireTokenForClient(scopes).ExecuteAsync();
-            var token = result.AccessToken;
+            var token = await GetAccessTokenAsync();
 
             string fixedDomain = "@soominrhee01gmail.onmicrosoft.com";
 
@@ -191,16 +159,7 @@ namespace WebAppServerConnection.Repositories
 
         public async Task<bool> CreateGroupAsync(EntraIDCreateGroup request)
         {
-            var scopes = new[] { "https://graph.microsoft.com/.default" };
-
-            var app = ConfidentialClientApplicationBuilder
-                .Create(clientId)
-                .WithClientSecret(clientSecret)
-                .WithAuthority($"https://login.microsoftonline.com/{tenantId}")
-                .Build();
-
-            var result = await app.AcquireTokenForClient(scopes).ExecuteAsync();
-            var token = result.AccessToken;
+            var token = await GetAccessTokenAsync();
 
             string mailNickname = request.DisplayName.Replace(" ", "").ToLower();
 
@@ -225,6 +184,52 @@ namespace WebAppServerConnection.Repositories
             Debug.WriteLine("응답 내용: " + resultContent);
 
             return response.IsSuccessStatusCode;
+        }
+
+        public async Task<bool> AddGroupMembersAsync(string groupId, List<string> userIds)
+        {
+            var token = await GetAccessTokenAsync();
+
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            bool allSuccess = true;
+            foreach (var userId in userIds)
+            {
+                var body = new Dictionary<string, object>
+                {
+                    ["@odata.id"] = $"https://graph.microsoft.com/v1.0/directoryObjects/{userId}"
+                };
+
+                var content = new StringContent(JsonConvert.SerializeObject(body), Encoding.UTF8, "application/json");
+                var response = await _httpClient.PostAsync($"https://graph.microsoft.com/v1.0/groups/{groupId}/members/$ref", content);
+                if (!response.IsSuccessStatusCode)
+                {
+                    Debug.WriteLine($"AddMember 실패: {userId} → {response.StatusCode}");
+                    allSuccess = false;
+                }
+            }
+
+            return allSuccess;
+        }
+
+        public async Task<bool> RemoveGroupMembersAsync(string groupId, List<string> userIds)
+        {
+            var token = await GetAccessTokenAsync();
+
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            bool allSuccess = true;
+            foreach (var userId in userIds)
+            {
+                var response = await _httpClient.DeleteAsync($"https://graph.microsoft.com/v1.0/groups/{groupId}/members/{userId}/$ref");
+                if (!response.IsSuccessStatusCode)
+                {
+                    Debug.WriteLine($"RemoveMember 실패: {userId} → {response.StatusCode}");
+                    allSuccess = false;
+                }
+            }
+
+            return allSuccess;
         }
 
 

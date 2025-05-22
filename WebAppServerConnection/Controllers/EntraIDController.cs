@@ -10,6 +10,7 @@ using System.Net.Http.Headers;
 using Newtonsoft.Json;
 using WebAppServerConnection.Models;
 using WebAppServerConnection.Repositories;
+using WebAppServerConnection.DTOs;
 using System.Diagnostics;
 
 
@@ -69,6 +70,20 @@ namespace WebAppServerConnection.Controllers
         {
             var success = await repo.CreateGroupAsync(request);
             return Json(new { success });
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> AddGroupMembers(GroupMembersRequest req)
+        {
+            var result = await repo.AddGroupMembersAsync(req.GroupId, req.UserIds);
+            return Json(new { success = result });
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> RemoveGroupMembers(GroupMembersRequest req)
+        {
+            var result = await repo.RemoveGroupMembersAsync(req.GroupId, req.UserIds);
+            return Json(new { success = result });
         }
 
 
